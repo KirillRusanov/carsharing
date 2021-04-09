@@ -23,5 +23,5 @@ public class Rate {
     private long cost;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "rate_id", cascade = CascadeType.ALL)
-    private List<Deal> deals;
+    private List<Car> cars;
 }

@@ -6,23 +6,13 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@DiscriminatorValue("OWNER")
 @Data
-@Table(name = "owner")
-public class Owner {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private long id;
+public class Owner extends Customer{
 
-    @Column(name = "firstName", nullable = false)
-    private String firstName;
+    @Column(name = "level", nullable = false)
+    private int level;
 
-    @Column(name = "lastName", nullable = false)
-    private String lastName;
-
-    @Column(name = "passportNumber", nullable = false)
-    private String passportNumber;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "owner_id", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer_id", cascade = CascadeType.ALL)
     private List<Car> cars;
 }
