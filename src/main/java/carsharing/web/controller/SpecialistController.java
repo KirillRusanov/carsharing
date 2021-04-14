@@ -1,7 +1,9 @@
 package carsharing.web.controller;
 
 import carsharing.service.SpecialistService;
+import carsharing.web.dto.DealDTO;
 import carsharing.web.dto.SpecialistDTO;
+import carsharing.web.mapper.DealMapper;
 import carsharing.web.mapper.SpecialistMapper;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,9 @@ public class SpecialistController {
 
     private SpecialistMapper specialistMapper = Mappers.getMapper(SpecialistMapper.class);
 
+    private DealMapper dealMapper = Mappers.getMapper(DealMapper.class);
+
+
     @GetMapping(value = "/list")
     public List<SpecialistDTO> getSpecialistList() {
         return specialistMapper.convertToDTO(specialistService.getAll());
@@ -28,21 +33,8 @@ public class SpecialistController {
         return specialistMapper.convertToDTO(specialistService.getById(id));
     }
 
-    @GetMapping(value = "/{id}/delete")
-    public String deleteSpecialist(@PathVariable("id") Long id) {
-        specialistService.delete(id);
-        return "Specialist deleted - " + id;
-    }
-
-    @PostMapping(value = "/create", produces = "application/json", consumes="application/json")
-    public String createSpecialist(@RequestBody SpecialistDTO specialistDTO) {
-        specialistService.create(specialistMapper.convertToEntity(specialistDTO));
-        return "Specialist created";
-    }
-
-    @PostMapping(value = "/edit", produces = "application/json", consumes = "application/json")
-    public String updateSpecialist(@RequestBody SpecialistDTO specialistDTO) {
-        specialistService.update(specialistMapper.convertToEntity(specialistDTO));
-        return "Specialist updated";
+    @GetMapping(value = "/get/deals/active")
+    public List<DealDTO> getActiveDeals() {
+        return dealMapper.convertToDTO(specialistService.getActiveDeals());
     }
 }

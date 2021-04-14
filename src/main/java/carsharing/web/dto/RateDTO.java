@@ -10,9 +10,12 @@ import java.util.List;
 public class RateDTO {
     private long id;
 
+    private String name;
+
     private RateType type;
 
     private long cost;
 
     private List<Deal> deals;
+
 }

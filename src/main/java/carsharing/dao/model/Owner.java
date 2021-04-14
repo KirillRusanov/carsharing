@@ -10,7 +10,7 @@ import java.util.List;
 @Data
 public class Owner extends Customer{
 
-    @Column(name = "level", nullable = false)
+    @Column(name = "level")
     private int level;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer_id", cascade = CascadeType.ALL)

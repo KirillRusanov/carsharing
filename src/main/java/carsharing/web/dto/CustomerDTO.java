@@ -14,4 +14,9 @@ public class CustomerDTO {
     private String passport_number;
 
     private String phone_number;
+
+    private String email;
+
+    private String password;
+
 }

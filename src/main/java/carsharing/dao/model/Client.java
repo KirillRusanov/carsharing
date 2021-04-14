@@ -11,9 +11,6 @@ import java.util.List;
 @Data
 public class Client extends Customer {
 
-    @Column(name = "email", nullable = false, unique = true)
-    private String email;
-
     @Column(name = "is_verified")
     private boolean is_verified;
 

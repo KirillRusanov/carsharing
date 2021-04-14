@@ -3,6 +3,7 @@ package carsharing.service;
 import carsharing.dao.model.Owner;
 import carsharing.dao.repository.OwnerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -12,6 +13,8 @@ public class OwnerService {
 
     @Autowired
     private OwnerRepository ownerRepository;
+    @Autowired
+    public BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public ArrayList<Owner> getAll() {
         return (ArrayList<Owner>) ownerRepository.findAll();
@@ -23,10 +26,6 @@ public class OwnerService {
 
     public void delete(Long id) {
         ownerRepository.deleteById(id);
-    }
-
-    public void create(Owner entity) {
-        ownerRepository.create(entity);
     }
 
     public void update(Owner entity) {

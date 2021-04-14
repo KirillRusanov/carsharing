@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class CarService {
@@ -31,6 +32,10 @@ public class CarService {
 
     public void update(Car entity) {
         carRepository.update(entity);
+    }
+
+    public List<Car> getAvailableCars() {
+        return carRepository.getAvailableCars();
     }
 
 }

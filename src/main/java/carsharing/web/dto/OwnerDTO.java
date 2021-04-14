@@ -15,5 +15,13 @@ public class OwnerDTO {
 
     private String passport_number;
 
+    private String phone_number;
+
+    private String email;
+
+    private String password;
+
+    private int level;
+
     private List<Car> cars;
 }

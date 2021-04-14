@@ -15,6 +15,9 @@ public class Rate {
     @Column(name = "id", nullable = false)
     private long id;
 
+    @Column(name = "name", nullable = false)
+    private String name;
+
     @Enumerated(value = EnumType.STRING)
     @Column(name = "type", nullable = false)
     private RateType type;

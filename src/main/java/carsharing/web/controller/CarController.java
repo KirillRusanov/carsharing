@@ -45,4 +45,9 @@ public class CarController {
         carService.update(carMapper.convertToEntity(carDTO));
         return "Car updated";
     }
+
+    @GetMapping(value = "/cars")
+    public List<CarDTO> getAvailableCars() {
+        return carMapper.convertToDTO(carService.getAvailableCars());
+    }
 }

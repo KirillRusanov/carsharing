@@ -1,0 +1,19 @@
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    url: jdbc:mysql://localhost:3306/carsharing?serverTimezone=UTC
+    username: root
+    password: maloi-26
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+log:
+  file:
+    path: log.file.path= D:\\
+security:
+  jwt:
+    secretKey: apple
+    expirationToken: 86400000
+
+---

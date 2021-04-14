@@ -1,7 +1,6 @@
 package carsharing.web.controller;
 
 import carsharing.service.ClientService;
-import carsharing.service.SpecialistService;
 import carsharing.web.dto.ClientDTO;
 import carsharing.web.mapper.ClientMapper;
 import org.mapstruct.factory.Mappers;
@@ -17,9 +16,6 @@ public class ClientController {
     @Autowired
     private ClientService clientService;
 
-    @Autowired
-    private SpecialistService specialistService;
-
     private ClientMapper clientMapper = Mappers.getMapper(ClientMapper.class);
 
 
@@ -31,19 +27,6 @@ public class ClientController {
     @GetMapping(value = "/get/{id}")
     public ClientDTO getClientById(@PathVariable("id") Long id) {
         return clientMapper.convertToDTO(clientService.getById(id));
-    }
-
-    @GetMapping(value = "/{id}/delete")
-    public String deleteClient(@PathVariable("id") Long id) {
-        clientService.delete(id);
-        return "Client deleted - " + id;
-    }
-
-    @PostMapping(value = "/create", produces = "application/json", consumes="application/json")
-    public String createClient(@RequestBody ClientDTO clientDTO) {
-        clientDTO.setSpecialist_id(specialistService.getById(1L));
-        clientService.create(clientMapper.convertToEntity(clientDTO));
-        return "Client created";
     }
 
     @PostMapping(value = "/edit", produces = "application/json", consumes = "application/json")

@@ -19,7 +19,7 @@ public class CustomerController {
     private CustomerMapper customerMapper = Mappers.getMapper(CustomerMapper.class);
 
     @GetMapping(value = "/list")
-    public List<CustomerDTO> getCustomerList() {
+    public List<CustomerDTO> getCustomerList()  {
         return customerMapper.convertToDTO(customerService.getAll());
     }
 
