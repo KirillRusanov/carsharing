@@ -24,5 +24,5 @@ public class Specialist {
     private String phone_number;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "specialist_id", cascade = CascadeType.ALL)
-    private List<Client> clients;
+    private List<Customer> clients;
 }

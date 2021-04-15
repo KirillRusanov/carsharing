@@ -23,7 +23,7 @@ public class CarDTO {
     private Rate rate_id;
 
     @JsonIgnore
-    private Owner owner_id;
+    private Customer customer_id;
 
     private List<Deal> deals;
 

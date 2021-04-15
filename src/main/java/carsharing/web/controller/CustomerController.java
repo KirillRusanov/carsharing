@@ -27,4 +27,16 @@ public class CustomerController {
     public CustomerDTO getCustomerById(@PathVariable("id") Long id) {
         return customerMapper.convertToDTO(customerService.getById(id));
     }
+
+    @PostMapping(value = "/edit", produces = "application/json", consumes = "application/json")
+    public String updateClient(@RequestBody CustomerDTO customerDTO) {
+        customerService.update(customerMapper.convertToEntity(customerDTO));
+        return "Customer updated";
+    }
+
+    @GetMapping(value = "/{id}/delete")
+    public String deleteById(@PathVariable("id") Long id) {
+        customerService.delete(id);
+        return "Customer deleted";
+    }
 }

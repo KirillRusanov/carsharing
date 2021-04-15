@@ -8,11 +8,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "customer_type")
 @Table(name = "customer")
 @Data
 public class Customer implements UserDetails {
@@ -39,6 +38,23 @@ public class Customer implements UserDetails {
     @JsonIgnore
     @Column(name ="password", nullable = false)
     private String password;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer_id", cascade = CascadeType.ALL)
+    private List<Car> cars;
+
+    @Column(name = "is_verified")
+    private boolean is_verified;
+
+    @OneToMany(mappedBy = "customer_id", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Deal> deals;
+
+    @OneToMany(mappedBy = "customer_id", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Card> cards;
+
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "specialist_id")
+    private Specialist specialist_id;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     @JoinTable(name = "customer_has_role",

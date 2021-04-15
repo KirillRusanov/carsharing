@@ -5,9 +5,7 @@ import carsharing.dao.model.Customer;
 import carsharing.service.CustomerService;
 import carsharing.web.controller.payload.JwtResponse;
 import carsharing.web.dto.CustomerDTO;
-import carsharing.web.mapper.ClientMapper;
 import carsharing.web.mapper.CustomerMapper;
-import carsharing.web.mapper.OwnerMapper;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -39,8 +37,6 @@ public class AuthController {
     private JwtUtils jwtUtils;
 
     private CustomerMapper customerMapper = Mappers.getMapper(CustomerMapper.class);
-    private OwnerMapper ownerMapper = Mappers.getMapper(OwnerMapper.class);
-    private ClientMapper clientMapper = Mappers.getMapper(ClientMapper.class);
 
     @PostMapping(value = "/signup", produces = "application/json", consumes="application/json")
     public ResponseEntity<?> signUp(@RequestBody CustomerDTO customerDTO) {

@@ -68,10 +68,10 @@ public class DAO<R> {
         return entityManager.createQuery(criteriaQuery).getResultList();
     }
 
-    public R getCustomerByEmail(String email) {
+    public Customer getCustomerByEmail(String email) {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<R> criteriaQuery = builder.createQuery(entityClass);
-        Root<R> root = criteriaQuery.from(entityClass);
+        CriteriaQuery<Customer> criteriaQuery = builder.createQuery(Customer.class);
+        Root<Customer> root = criteriaQuery.from(Customer.class);
         criteriaQuery.select(root);
 
         criteriaQuery.where(builder.equal(root.get("email"), email));
