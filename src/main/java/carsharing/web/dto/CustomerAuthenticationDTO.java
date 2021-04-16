@@ -3,11 +3,7 @@ package carsharing.web.dto;
 import lombok.Data;
 
 @Data
-public class CustomerDTO {
-
-    private long id;
-
-    private String email;
+public class CustomerAuthenticationDTO extends CustomerDTO {
 
     private String name;
 
@@ -18,4 +14,8 @@ public class CustomerDTO {
     private String license_number;
 
     private String phone_number;
+
+    private String email;
+
+    private String password;
 }

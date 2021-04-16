@@ -26,8 +26,11 @@ public class Customer implements UserDetails {
     @Column(name = "surname", nullable = false)
     private String surname;
 
-    @Column(name = "passport_number", nullable = false, unique = true)
+    @Column(name = "passport_number", unique = true)
     private String passport_number;
+
+    @Column(name = "license_number", unique = true)
+    private String license_number;
 
     @Column(name = "phone_number", nullable = false, unique = true)
     private String phone_number;

@@ -54,7 +54,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests().antMatchers("/api/auth/**").permitAll()
-                .antMatchers("/api/guest/**").permitAll()
+                .antMatchers("/api/customer/**").permitAll()
+                .antMatchers("/api/rate/**").hasAnyRole("USER", "ADMIN", "SPECIALIST")
+                .antMatchers("/api/card/**").hasAnyRole("USER", "ADMIN", "SPECIALIST")
+                .antMatchers("/api/deal/**").hasAnyRole("USER", "ADMIN", "SPECIALIST")
+                .antMatchers("/api/car/**").hasAnyRole("USER", "ADMIN", "SPECIALIST")
+                .antMatchers("/api/specialist/**").hasAnyRole("ADMIN", "SPECIALIST")
+                .antMatchers("/api/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated();
 
         http.addFilterBefore(authenticationJwtTokenFilter(),  UsernamePasswordAuthenticationFilter.class);

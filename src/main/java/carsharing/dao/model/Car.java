@@ -22,7 +22,7 @@ public class Car {
 
     @Enumerated(value = EnumType.STRING)
     @Column(name = "car_status", nullable = false)
-    private  CarStatus status;
+    private  CarStatus car_status;
 
     @Column(name = "brand", nullable = false)
     private String brand;

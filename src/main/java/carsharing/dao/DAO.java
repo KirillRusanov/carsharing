@@ -46,13 +46,13 @@ public class DAO<R> {
         entityManager.remove(entity);
     }
 
-    public List<Deal> getActiveDeals() {
+    public List<Deal> getDealsByStatus(DealStatus status) {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Deal> criteriaQuery = builder.createQuery(Deal.class);
         Root<Deal> root = criteriaQuery.from(Deal.class);
         criteriaQuery.select(root);
 
-        criteriaQuery.where(builder.equal(root.get("status"), DealStatus.ACTIVE));
+        criteriaQuery.where(builder.equal(root.get("status"), status));
 
         return entityManager.createQuery(criteriaQuery).getResultList();
     }

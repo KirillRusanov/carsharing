@@ -11,9 +11,15 @@ spring:
 log:
   file:
     path: log.file.path= D:\\
+
 security:
   jwt:
     secretKey: apple
     expirationToken: 86400000
 
+server:
+  servlet:
+    session:
+      cookie:
+        max-age: 86400000
 ---

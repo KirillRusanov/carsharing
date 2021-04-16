@@ -40,11 +40,10 @@ public class CustomerService implements UserDetailsService {
         return false;
     }
 
-    public boolean save(Customer customer) {
+    public void save(Customer customer) {
         customer.setRoles(Collections.singleton(roleRepository.findRoleByName("ROLE_USER")));
         customer.setPassword(passwordEncoder.encode(customer.getPassword()));
         customerRepository.create(customer);
-        return true;
     }
 
     public void update(Customer entity) {
@@ -55,13 +54,10 @@ public class CustomerService implements UserDetailsService {
         return customerRepository.getCustomerByEmail(email);
     }
 
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Customer customer = getCustomerByEmail(username);
-        if(customer == null) {
-            throw new UsernameNotFoundException("Customer not found");
-        }
+        if(customer == null) throw new UsernameNotFoundException("Customer not found");
         return customer;
     }
 }

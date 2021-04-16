@@ -23,11 +23,6 @@ public class CustomerController {
         return customerMapper.convertToDTO(customerService.getAll());
     }
 
-    @GetMapping(value = "/get/{id}")
-    public CustomerDTO getCustomerById(@PathVariable("id") Long id) {
-        return customerMapper.convertToDTO(customerService.getById(id));
-    }
-
     @PostMapping(value = "/edit", produces = "application/json", consumes = "application/json")
     public String updateClient(@RequestBody CustomerDTO customerDTO) {
         customerService.update(customerMapper.convertToEntity(customerDTO));

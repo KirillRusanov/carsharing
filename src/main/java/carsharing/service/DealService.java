@@ -1,11 +1,13 @@
 package carsharing.service;
 
 import carsharing.dao.model.Deal;
+import carsharing.dao.model.DealStatus;
 import carsharing.dao.repository.DealRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class DealService {
@@ -31,5 +33,9 @@ public class DealService {
 
     public void update(Deal entity) {
         dealRepository.update(entity);
+    }
+
+    public List<Deal> getDealsByStatus(DealStatus dealStatus) {
+        return dealRepository.getDealsByStatus(dealStatus);
     }
 }

@@ -18,35 +18,17 @@ public class CarController {
 
     private CarMapper carMapper = Mappers.getMapper(CarMapper.class);
 
-    @GetMapping(value = "/list")
+    @GetMapping(value = "/own/list")
     public List<CarDTO> getCarList() {
         return carMapper.convertToDTO(carService.getAll());
     }
 
-    @GetMapping(value = "/get/{id}")
+    @GetMapping(value = "/{id}")
     public CarDTO getCarById(@PathVariable("id") Long id) {
         return carMapper.convertToDTO(carService.getById(id));
     }
 
-    @GetMapping(value = "/{id}/delete")
-    public String deleteCar(@PathVariable("id") Long id) {
-        carService.delete(id);
-        return "Car deleted - " + id;
-    }
-
-    @PostMapping(value = "/create", produces = "application/json", consumes="application/json")
-    public String createCar(@RequestBody CarDTO carDTO) {
-        carService.create(carMapper.convertToEntity(carDTO));
-        return "Car created";
-    }
-
-    @PostMapping(value = "/edit", produces = "application/json", consumes = "application/json")
-    public String updateCar(@RequestBody CarDTO carDTO) {
-        carService.update(carMapper.convertToEntity(carDTO));
-        return "Car updated";
-    }
-
-    @GetMapping(value = "/cars")
+    @GetMapping(value = "/available")
     public List<CarDTO> getAvailableCars() {
         return carMapper.convertToDTO(carService.getAvailableCars());
     }

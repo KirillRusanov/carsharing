@@ -1,6 +1,5 @@
 package carsharing.web.controller;
 
-import carsharing.dao.model.Card;
 import carsharing.service.CardService;
 import carsharing.web.dto.CardDTO;
 import carsharing.web.mapper.CardMapper;
@@ -20,31 +19,19 @@ public class CardController {
     private CardMapper cardMapper = Mappers.getMapper(CardMapper.class);
 
     @GetMapping(value = "/list")
-    public List<CardDTO> getCardList() {
+    public List<CardDTO> getOwnCardList() {
         return cardMapper.convertToDTO(cardService.getAll());
-    }
-
-    @GetMapping(value = "/get/{id}")
-    public CardDTO getCardById(@PathVariable("id") Long id) {
-        return cardMapper.convertToDTO(cardService.getById(id));
     }
 
     @GetMapping(value = "/{id}/delete")
     public String deleteCard(@PathVariable("id") Long id) {
         cardService.delete(id);
-        return "Card deleted - " + id;
+        return "Card delete - " + id;
     }
 
-    @PostMapping(value = "/create", produces = "application/json", consumes="application/json")
-    public String createCard(@RequestBody CardDTO cardDTO) {
+    @PostMapping(value = "/add", produces = "application/json", consumes="application/json")
+    public String addCard(@RequestBody CardDTO cardDTO) {
         cardService.create(cardMapper.convertToEntity(cardDTO));
-        return "Card created";
+        return "Card added";
     }
-
-    @PostMapping(value = "/edit", produces = "application/json", consumes = "application/json")
-    public String updateCard(@RequestBody CardDTO card) {
-        cardService.update(cardMapper.convertToEntity(card));
-        return "Card updated";
-    }
-
 }
