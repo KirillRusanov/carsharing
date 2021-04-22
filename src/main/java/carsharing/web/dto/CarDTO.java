@@ -11,7 +11,7 @@ public class CarDTO {
 
     private long id;
 
-    private CarType car_type;
+    private CarType type;
 
     private CarStatus car_status;
 
@@ -20,10 +20,10 @@ public class CarDTO {
     private int fuel;
 
     @JsonIgnore
-    private Rate rate_id;
+    private Rate rate;
 
     @JsonIgnore
-    private Customer customer_id;
+    private Customer customer;
 
     private List<Deal> deals;
 

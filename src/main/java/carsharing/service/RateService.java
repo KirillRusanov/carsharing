@@ -17,20 +17,16 @@ public class RateService {
         return (ArrayList<Rate>) rateRepository.findAll();
     }
 
-    public Rate getById(Long id) {
+    public Rate findById(Long id) {
         return rateRepository.findById(id);
     }
 
     public void delete(Long id) {
-        rateRepository.deleteById(id);
+        rateRepository.delete(id);
     }
 
-    public void create(Rate entity) {
-        rateRepository.create(entity);
-    }
-
-    public void update(Rate entity) {
-        rateRepository.update(entity);
+    public void save(Rate entity) {
+        rateRepository.saveOrUpdate(entity);
     }
 
 }

@@ -7,6 +7,9 @@ spring:
     username: root
     password: maloi-26
     driver-class-name: com.mysql.cj.jdbc.Driver
+  liquibase:
+    change-log: db.changelog/db.changelog-master.xml
+
 
 log:
   file:

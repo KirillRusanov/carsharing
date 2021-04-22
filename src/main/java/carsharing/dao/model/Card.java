@@ -4,17 +4,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
 import java.sql.Date;
 
 @Entity
 @Data
 @Table(name = "card")
-public class Card {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private long id;
+public class Card extends EntityDetails {
 
     @Column(name = "number", nullable = false)
     private String number;
@@ -26,7 +22,7 @@ public class Card {
     private Date term;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id")
-    private Customer customer_id;
+    private Customer customer;
 }

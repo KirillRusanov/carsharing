@@ -18,5 +18,5 @@ public class CardDTO {
     private Date term;
 
     @JsonIgnore
-    private Customer customer_id;
+    private Customer customer;
 }

@@ -25,26 +25,27 @@ public class DAO<R> {
         this.entityClass = entityClass;
     }
 
-    public R findById(Long id) {
-        return entityManager.find(entityClass, id);
-    }
-
     public List<R> findAll() {
         return (entityManager.createQuery("from " + entityClass.getName(), entityClass).getResultList());
     }
 
-    public void create(R entity) {
-        entityManager.persist(entity);
+    public R findById(Long id) {
+        return entityManager.find(entityClass, id);
     }
 
-    public void update(R entity) {
-        entityManager.merge(entity);
+    public void saveOrUpdate(EntityDetails entity) {
+        if(findById(entity.getId()) == null) {
+            entityManager.persist(entity);
+        } else {
+            entityManager.merge(entity);
+        }
     }
 
-    public void deleteById(Long id) {
-        R entity = findById(id);
+    public void delete(Long id) {
+        R entity = entityManager.merge(findById(id));
         entityManager.remove(entity);
     }
+
 
     public List<Deal> getDealsByStatus(DealStatus status) {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
@@ -81,21 +82,5 @@ public class DAO<R> {
             return null;
         }
     }
-
-    public Role findRoleByName(String name) {
-        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Role> criteriaQuery = builder.createQuery(Role.class);
-        Root<Role> root = criteriaQuery.from(Role.class);
-        criteriaQuery.select(root);
-
-        criteriaQuery.where(builder.equal(root.get("name"), name));
-        try {
-            return entityManager.createQuery(criteriaQuery).getSingleResult();
-        } catch (NoResultException ex) {
-            return null;
-        }
-
-    }
-
 
 }

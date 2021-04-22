@@ -1,13 +1,19 @@
 package carsharing.web.controller;
 
+import carsharing.dao.model.Customer;
 import carsharing.service.CustomerService;
+import carsharing.service.SpecialistService;
 import carsharing.web.dto.CustomerDTO;
+import carsharing.web.dto.SpecialistDTO;
 import carsharing.web.mapper.CustomerMapper;
+import carsharing.web.mapper.SpecialistMapper;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("api/customer")
@@ -15,23 +21,24 @@ public class CustomerController {
 
     @Autowired
     private CustomerService customerService;
+    @Autowired
+    private SpecialistService specialistService;
 
     private CustomerMapper customerMapper = Mappers.getMapper(CustomerMapper.class);
+    private SpecialistMapper specialistMapper = Mappers.getMapper(SpecialistMapper.class);
 
-    @GetMapping(value = "/list")
-    public List<CustomerDTO> getCustomerList()  {
-        return customerMapper.convertToDTO(customerService.getAll());
+    @GetMapping(value = "/profile")
+    public CustomerDTO getProfile(@AuthenticationPrincipal Customer customerDetails) {
+        return customerMapper.convertToDTO(customerDetails);
     }
 
-    @PostMapping(value = "/edit", produces = "application/json", consumes = "application/json")
-    public String updateClient(@RequestBody CustomerDTO customerDTO) {
-        customerService.update(customerMapper.convertToEntity(customerDTO));
-        return "Customer updated";
+    @GetMapping(value = "/profile/delete")
+    public void deleteProfile(@AuthenticationPrincipal Customer customerDetails) {
+        customerService.delete(customerDetails.getId());
     }
 
-    @GetMapping(value = "/{id}/delete")
-    public String deleteById(@PathVariable("id") Long id) {
-        customerService.delete(id);
-        return "Customer deleted";
+    @GetMapping(value = "/specialist/{id}")
+    public SpecialistDTO getSpecialistById(@PathVariable("id") Long id) {
+        return specialistMapper.convertToDTO(specialistService.findById(id));
     }
 }

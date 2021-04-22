@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -19,20 +20,28 @@ public class DealService {
         return (ArrayList<Deal>) dealRepository.findAll();
     }
 
-    public Deal getById(Long id) {
+    public Deal findById(Long id) {
         return dealRepository.findById(id);
     }
 
     public void delete(Long id) {
-        dealRepository.deleteById(id);
+        dealRepository.delete(id);
     }
 
-    public void create(Deal entity) {
-        dealRepository.create(entity);
+    public void save(Deal entity) {
+        dealRepository.saveOrUpdate(entity);
     }
 
-    public void update(Deal entity) {
-        dealRepository.update(entity);
+
+    public void closeDeal(Deal deal) {
+        deal.setStatus(DealStatus.FINISHED);
+        save(deal);
+    }
+
+    public void openDeal(Deal deal) {
+        deal.setDate(new Date());
+        deal.setStatus(DealStatus.ACTIVE);
+        save(deal);
     }
 
     public List<Deal> getDealsByStatus(DealStatus dealStatus) {

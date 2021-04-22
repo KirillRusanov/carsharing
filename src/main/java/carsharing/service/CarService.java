@@ -18,20 +18,16 @@ public class CarService {
         return (ArrayList<Car>) carRepository.findAll();
     }
 
-    public Car getById(Long id) {
+    public Car findById(Long id) {
         return carRepository.findById(id);
     }
 
     public void delete(Long id) {
-        carRepository.deleteById(id);
+        carRepository.delete(id);
     }
 
-    public void create(Car entity) {
-        carRepository.create(entity);
-    }
-
-    public void update(Car entity) {
-        carRepository.update(entity);
+    public void save(Car entity) {
+        carRepository.saveOrUpdate(entity);
     }
 
     public List<Car> getAvailableCars() {

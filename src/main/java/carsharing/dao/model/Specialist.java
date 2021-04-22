@@ -8,11 +8,7 @@ import java.util.List;
 @Entity
 @Data
 @Table(name = "specialist")
-public class Specialist {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private long id;
+public class Specialist extends EntityDetails {
 
     @Column(name = "email", nullable = false)
     private String email;
@@ -23,6 +19,6 @@ public class Specialist {
     @Column(name = "phone_number", nullable = false)
     private String phone_number;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "specialist_id", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "specialist")
     private List<Customer> clients;
 }

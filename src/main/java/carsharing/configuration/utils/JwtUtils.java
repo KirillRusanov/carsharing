@@ -2,18 +2,16 @@ package carsharing.configuration.utils;
 
 import carsharing.dao.model.Customer;
 import io.jsonwebtoken.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Date;
 
 @Component
 public class JwtUtils {
-    private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
-
 
     @Value("${security.jwt.secretKey}")
     private String jwtSecretKey;
@@ -43,17 +41,15 @@ public class JwtUtils {
             Jwts.parser().setSigningKey(jwtSecretKey).parseClaimsJws(authToken);
             return true;
         } catch (SignatureException e) {
-            logger.error("Invalid JWT signature: {}", e.getMessage());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid JWT signature");
         } catch (MalformedJwtException e) {
-            logger.error("Invalid JWT token: {}", e.getMessage());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid JWT token");
         } catch (ExpiredJwtException e) {
-            logger.error("JWT token is expired: {}", e.getMessage());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "JWT token is expired");
         } catch (UnsupportedJwtException e) {
-            logger.error("JWT token is unsupported: {}", e.getMessage());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "JWT token is unsupported");
         } catch (IllegalArgumentException e) {
-            logger.error("JWT claims string is empty: {}", e.getMessage());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "JWT claims string is empty");
         }
-
-        return false;
     }
 }

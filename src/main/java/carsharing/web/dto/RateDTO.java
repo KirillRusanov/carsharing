@@ -1,6 +1,6 @@
 package carsharing.web.dto;
 
-import carsharing.dao.model.Deal;
+import carsharing.dao.model.Car;
 import carsharing.dao.model.RateType;
 import lombok.Data;
 
@@ -16,6 +16,5 @@ public class RateDTO {
 
     private long cost;
 
-    private List<Deal> deals;
-
+    private List<Car> cars;
 }

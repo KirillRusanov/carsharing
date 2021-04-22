@@ -8,12 +8,7 @@ import java.util.List;
 @Entity
 @Data
 @Table(name = "rate")
-public class Rate {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private long id;
+public class Rate extends EntityDetails {
 
     @Column(name = "name", nullable = false)
     private String name;
@@ -25,6 +20,6 @@ public class Rate {
     @Column(name = "cost", nullable = false)
     private long cost;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "rate_id", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "rate")
     private List<Car> cars;
 }

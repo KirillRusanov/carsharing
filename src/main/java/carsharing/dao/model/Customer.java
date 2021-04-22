@@ -14,11 +14,7 @@ import java.util.Set;
 @Entity
 @Table(name = "customer")
 @Data
-public class Customer implements UserDetails {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private long id;
+public class Customer extends EntityDetails implements UserDetails {
 
     @Column(name = "name", nullable = false)
     private String name;
@@ -42,25 +38,25 @@ public class Customer implements UserDetails {
     @Column(name ="password", nullable = false)
     private String password;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer_id", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")
     private List<Car> cars;
 
     @Column(name = "is_verified")
     private boolean is_verified;
 
-    @OneToMany(mappedBy = "customer_id", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
     private List<Deal> deals;
 
-    @OneToMany(mappedBy = "customer_id", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
     private List<Card> cards;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "specialist_id")
-    private Specialist specialist_id;
+    private Specialist specialist;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
-    @JoinTable(name = "customer_has_role",
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "customer_role",
             joinColumns = {@JoinColumn(name = "customer_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")})
     private Set<Role> roles = new HashSet<>();

@@ -17,19 +17,15 @@ public class SpecialistService {
         return (ArrayList<Specialist>) specialistRepository.findAll();
     }
 
-    public Specialist getById(Long id) {
+    public Specialist findById(Long id) {
         return specialistRepository.findById(id);
     }
 
     public void delete(Long id) {
-        specialistRepository.deleteById(id);
+        specialistRepository.delete(id);
     }
 
-    public void create(Specialist entity) {
-        specialistRepository.create(entity);
-    }
-
-    public void update(Specialist entity) {
-        specialistRepository.update(entity);
+    public void save(Specialist entity) {
+        specialistRepository.saveOrUpdate(entity);
     }
 }

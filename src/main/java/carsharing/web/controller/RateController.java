@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/rate")
+@RequestMapping("api/rates")
 public class RateController {
 
     @Autowired
@@ -23,8 +23,8 @@ public class RateController {
         return rateMapper.convertToDTO(rateService.getAll());
     }
 
-    @GetMapping(value = "/get/{id}")
+    @GetMapping(value = "/{id}")
     public RateDTO getRateById(@PathVariable("id") Long id) {
-        return rateMapper.convertToDTO(rateService.getById(id));
+        return rateMapper.convertToDTO(rateService.findById(id));
     }
 }
