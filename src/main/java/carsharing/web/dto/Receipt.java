@@ -4,7 +4,7 @@ import carsharing.dao.model.RateType;
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -22,9 +22,9 @@ public class Receipt {
 
     private String car;
 
-    private Date dateStartDeal;
+    private LocalDateTime dateStartDeal;
 
-    private Date dateEndDeal;
+    private LocalDateTime dateEndDeal;
 
 
 }

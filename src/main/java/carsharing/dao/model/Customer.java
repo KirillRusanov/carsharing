@@ -1,7 +1,7 @@
 package carsharing.dao.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -12,8 +12,10 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name = "customer")
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Customer extends EntityDetails implements UserDetails {
 
     @Column(name = "name", nullable = false)

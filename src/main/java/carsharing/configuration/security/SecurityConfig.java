@@ -1,8 +1,7 @@
 package carsharing.configuration.security;
 
 import carsharing.service.CustomerService;
-import carsharing.service.security.AuthEntryPointJwt;
-import carsharing.service.security.AuthTokenFilter;
+import carsharing.web.security.AuthTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,9 +22,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private CustomerService customerService;
-
-    @Autowired
-    private AuthEntryPointJwt unauthorizedHandler;
 
     @Bean
     public AuthTokenFilter authenticationJwtTokenFilter() {
@@ -51,16 +47,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
-                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests().antMatchers("/api/auth/**").permitAll()
                 .antMatchers("/api/customer/**").permitAll()
-                .antMatchers("/api/rate/**").hasAnyRole("CUSTOMER", "ADMIN", "SPECIALIST")
-                .antMatchers("/api/card/**").hasAnyRole("CUSTOMER", "ADMIN", "SPECIALIST")
-                .antMatchers("/api/deal/**").hasAnyRole("CUSTOMER", "ADMIN", "SPECIALIST")
-                .antMatchers("/api/car/**").hasAnyRole("CUSTOMER", "ADMIN", "SPECIALIST")
-                .antMatchers("/api/specialist/**").hasAnyRole("ADMIN", "SPECIALIST")
-                .antMatchers("/api/admin-management/**").hasRole("ADMIN")
                 .anyRequest().authenticated();
 
         http.addFilterBefore(authenticationJwtTokenFilter(),  UsernamePasswordAuthenticationFilter.class);

@@ -14,7 +14,7 @@ import java.util.List;
 
 @Component
 @Transactional
-public class DAO<R> {
+public class DAO<R extends EntityDetails> {
 
     private Class<R> entityClass;
 
@@ -33,7 +33,7 @@ public class DAO<R> {
         return entityManager.find(entityClass, id);
     }
 
-    public void saveOrUpdate(EntityDetails entity) {
+    public void saveOrUpdate(R entity) {
         if(findById(entity.getId()) == null) {
             entityManager.persist(entity);
         } else {

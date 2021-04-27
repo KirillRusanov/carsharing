@@ -1,12 +1,12 @@
 package carsharing.configuration.utils;
 
 import carsharing.dao.model.Customer;
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Date;
 
@@ -36,20 +36,8 @@ public class JwtUtils {
         return Jwts.parser().setSigningKey(jwtSecretKey).parseClaimsJws(token).getBody().getSubject();
     }
 
-    public boolean validateJwtToken(String authToken) {
-        try {
-            Jwts.parser().setSigningKey(jwtSecretKey).parseClaimsJws(authToken);
-            return true;
-        } catch (SignatureException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid JWT signature");
-        } catch (MalformedJwtException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid JWT token");
-        } catch (ExpiredJwtException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "JWT token is expired");
-        } catch (UnsupportedJwtException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "JWT token is unsupported");
-        } catch (IllegalArgumentException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "JWT claims string is empty");
-        }
+    public boolean validateJwtToken(String authToken) throws JwtException {
+        Jwts.parser().setSigningKey(jwtSecretKey).parseClaimsJws(authToken);
+        return true;
     }
 }

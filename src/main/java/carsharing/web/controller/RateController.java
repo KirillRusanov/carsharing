@@ -5,12 +5,14 @@ import carsharing.web.dto.RateDTO;
 import carsharing.web.mapper.RateMapper;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("api/rates")
+@PreAuthorize("hasAnyRole('CUSTOMER', 'SPECIALIST', 'ADMIN')")
 public class RateController {
 
     @Autowired

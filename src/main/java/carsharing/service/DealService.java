@@ -6,8 +6,8 @@ import carsharing.dao.repository.DealRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -39,7 +39,7 @@ public class DealService {
     }
 
     public void openDeal(Deal deal) {
-        deal.setDate(new Date());
+        deal.setStartDate(LocalDateTime.now());
         deal.setStatus(DealStatus.ACTIVE);
         save(deal);
     }

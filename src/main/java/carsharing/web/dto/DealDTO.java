@@ -6,7 +6,7 @@ import carsharing.dao.model.DealStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Data
 public class DealDTO {
@@ -14,7 +14,9 @@ public class DealDTO {
 
     private DealStatus status;
 
-    private Date date;
+    private LocalDateTime startDate;
+
+    private LocalDateTime endDate;
 
     private String description;
 

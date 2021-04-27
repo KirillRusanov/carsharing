@@ -2,20 +2,24 @@ package carsharing.web.controller;
 
 import carsharing.dao.model.*;
 import carsharing.service.*;
+import carsharing.service.exception.DealPaymentException;
 import carsharing.web.dto.DealDTO;
 import carsharing.web.dto.Receipt;
 import carsharing.web.mapper.DealMapper;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
 @RequestMapping("api/deal")
+@PreAuthorize("hasAnyRole('CUSTOMER', 'SPECIALIST', 'ADMIN')")
 public class DealController {
 
     @Autowired
@@ -25,7 +29,7 @@ public class DealController {
     @Autowired
     private CustomerService customerService;
     @Autowired
-    private PaymentManager paymentManager;
+    private DealManager dealManager;
 
     private DealMapper dealMapper = Mappers.getMapper(DealMapper.class);
 
@@ -55,15 +59,22 @@ public class DealController {
             List<Deal> deals = customerDetails.getDeals();
             Car rentedCar = carService.findById(carId);
             for(Deal deal : deals) {
-                if(deal.getStatus().equals(DealStatus.ACTIVE)) {
-                    Receipt receipt = paymentManager.serve(deal);
-                    rentedCar.setCar_status(CarStatus.AVAILABLE);
-                    dealService.closeDeal(deal);
-                    carService.save(rentedCar);
-                    return receipt;
+                try {
+                    if (deal.getStatus().equals(DealStatus.ACTIVE)) {
+                        Receipt receipt = dealManager.serve(deal);
+                        rentedCar.setCar_status(CarStatus.AVAILABLE);
+                        deal.setEndDate(LocalDateTime.now());
+                        dealService.closeDeal(deal);
+                        carService.save(rentedCar);
+                        return receipt;
+                    }
+                } catch (DealPaymentException ex) {
+                    throw new ResponseStatusException(HttpStatus.PAYMENT_REQUIRED, "Payment failed");
+                } catch (ClassNotFoundException e) {
+                    throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Type of rates does not exist");
                 }
             }
         }
-        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Closing the deal was denied");
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Incorrect data. Closing the deal was denied");
     }
 }

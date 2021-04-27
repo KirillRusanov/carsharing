@@ -1,14 +1,16 @@
 package carsharing.dao.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
-import java.sql.Date;
+import java.time.LocalDateTime;
 
 @Entity
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "card")
 public class Card extends EntityDetails {
 
@@ -19,7 +21,7 @@ public class Card extends EntityDetails {
     private String code;
 
     @Column(name = "term", nullable = false)
-    private Date term;
+    private LocalDateTime term;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)

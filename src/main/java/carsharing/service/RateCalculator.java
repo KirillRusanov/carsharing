@@ -1,9 +1,13 @@
 package carsharing.service;
 
 import carsharing.dao.model.Deal;
-import carsharing.web.dto.Receipt;
+import carsharing.dao.model.RateType;
+import org.springframework.stereotype.Component;
 
-public abstract class RateCalculator {
+@Component
+public interface RateCalculator {
 
-    public abstract Receipt consider(Deal deal);
+    RateType getRateType();
+
+    long consider(Deal deal);
 }

@@ -1,12 +1,15 @@
 package carsharing.dao.model;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "rate")
 public class Rate extends EntityDetails {
 

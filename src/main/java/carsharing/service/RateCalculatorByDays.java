@@ -1,27 +1,28 @@
 package carsharing.service;
 
 import carsharing.dao.model.Deal;
-import carsharing.web.dto.Receipt;
+import carsharing.dao.model.RateType;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Component
-public class RateCalculatorByDays extends RateCalculator {
+@Getter
+public class RateCalculatorByDays implements RateCalculator {
 
     @Autowired
     private PaymentManager paymentManager;
 
     @Override
-    public Receipt consider(Deal deal) {
-        Date dateStartDeal = deal.getDate();
-        Date dateEndDeal = new Date();
-        long totalTime = (dateEndDeal.getTime() - dateStartDeal.getTime());
-        long totalDays = ((((totalTime / 1000) / 60) / 60) / 24);
+    public RateType getRateType() {
+        return RateType.DAILY;
+    }
 
-        long totalPrice = totalDays * deal.getCar().getRate().getCost();
-
-        return paymentManager.getReceipt(deal, dateStartDeal, dateEndDeal, totalPrice);
+    @Override
+    public long consider(Deal deal) {
+        long totalTime = (LocalDateTime.now().getDayOfYear() - deal.getStartDate().getDayOfYear());
+        return totalTime * deal.getCar().getRate().getCost();
     }
 }

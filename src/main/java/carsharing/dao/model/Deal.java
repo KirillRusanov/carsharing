@@ -1,13 +1,16 @@
 package carsharing.dao.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "deal")
 public class Deal extends EntityDetails {
 
@@ -15,8 +18,11 @@ public class Deal extends EntityDetails {
     @Column(name = "status", nullable = false)
     private DealStatus status;
 
-    @Column(name = "date", nullable = false)
-    private Date date;
+    @Column(name = "start_date", nullable = false)
+    private LocalDateTime startDate;
+
+    @Column(name = "end_date")
+    private LocalDateTime endDate;
 
     @Column(name = "description", nullable = false)
     private String description;

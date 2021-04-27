@@ -12,12 +12,14 @@ import carsharing.web.mapper.RateMapper;
 import carsharing.web.mapper.SpecialistMapper;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("api/admin-panel")
+@PreAuthorize("hasRole('ADMIN')")
 public class AdminController {
 
     @Autowired
