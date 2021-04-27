@@ -1,26 +1,29 @@
 package carsharing.dao.model;
 
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "car")
-public class Car {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private long id;
+public class Car extends EntityDetails {
 
     @Enumerated(value = EnumType.STRING)
-    @Column(name = "carType", nullable = false)
-    private CarType carType;
+    @Column(name = "car_type", nullable = false)
+    private CarType type;
 
-    @Column(name = "carStatus", nullable = false)
-    private  CarStatus status;
+    @Enumerated(value = EnumType.STRING)
+    @Column(name = "car_status", nullable = false)
+    private  CarStatus car_status;
 
     @Column(name = "brand", nullable = false)
     private String brand;
@@ -28,10 +31,16 @@ public class Car {
     @Column(name = "fuel", nullable = false)
     private int fuel;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "owner_id")
-    private Owner owner_id;
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "car_id", cascade = CascadeType.ALL)
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "rate_id")
+    private Rate rate;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "car")
     private List<Deal> deals;
 }

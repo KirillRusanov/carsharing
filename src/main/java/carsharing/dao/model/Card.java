@@ -1,19 +1,18 @@
 package carsharing.dao.model;
 
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "card")
-public class Card {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private long id;
+public class Card extends EntityDetails {
 
     @Column(name = "number", nullable = false)
     private String number;
@@ -22,9 +21,10 @@ public class Card {
     private String code;
 
     @Column(name = "term", nullable = false)
-    private Date term;
+    private LocalDateTime term;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id")
-    private Customer customer_id;
+    private Customer customer;
 }
