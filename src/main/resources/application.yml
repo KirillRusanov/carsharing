@@ -9,7 +9,10 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   liquibase:
     change-log: db.changelog/db.changelog-master.xml
-
+  mvc:
+    view:
+      prefix: /WEB-INF/templates/
+      suffix: .html
 
 log:
   file:
