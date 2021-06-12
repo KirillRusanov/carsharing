@@ -12,6 +12,7 @@ body {
 }
 .banner {
     background-image: url("../image/background.jpg");
+    background-attachment: fixed;
 }
 nav {
     background: linear-gradient(180deg, #5E5861 0%, rgba(132, 128, 135, 0.6) 69.06%);
@@ -62,4 +63,26 @@ nav {
     color:#F8EDED;
     text-transform: uppercase;
     font-family: "Mongolian Baiti", fantasy;
+}
+/* КАРТИНКА */
+.card-img-top {
+    border-radius: 20px;
+    margin-top:5%;
+}
+/* КАРТОЧКИ */
+.card {
+    margin: 3% 2% 2%;
+    border-radius: 10px 32px;
+}
+.cards-space {
+    display: flex;
+    margin: 6%;
+}
+/* ПАНЕЛЬ */
+.cars-panel {
+    margin-top: 3%;
+    padding-bottom: 8%;
+    background: linear-gradient(40deg, #5E5861 0%, rgba(132, 128, 135, 0.6) 30.00%);
+    border-radius: 32px;
+    box-shadow: 0px 0px 1px 2px #000;
 }

@@ -10,9 +10,9 @@
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
             <ul class="navbar-nav">
-                <img class="navbar-brand" src="image/logo.png">
+                <img class="navbar-brand" th:src="@{/image/logo.png}">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Home</a>
+                    <a class="nav-link" href="/carsharing/index">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">About</a>
@@ -24,7 +24,7 @@
                     <a class="nav-link" href="#">M - Panel</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Available cars</a>
+                    <a class="nav-link" href="/carsharing/api/cars/available">Available cars</a>
                 </li>
             </ul>
         </div>
