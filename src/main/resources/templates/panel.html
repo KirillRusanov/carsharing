@@ -1,0 +1,14 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://java.sun.com/jsf/core">
+<head>
+    <title>Carsharing Grodno</title>
+    <div th:replace="fragments/header :: header-css"/>
+</head>
+<body class="banner">
+<div th:replace="fragments/header :: header"/>
+
+<div sec:authorize="isAnonymous()">
+HELLO WORLD
+</div>
+</body>
+</html>

@@ -78,11 +78,25 @@ nav {
     display: flex;
     margin: 6%;
 }
-/* ПАНЕЛЬ */
+/* ПАНЕЛЬ ДОСТУПНЫЕ АВТО */
 .cars-panel {
     margin-top: 3%;
     padding-bottom: 8%;
     background: linear-gradient(40deg, #5E5861 0%, rgba(132, 128, 135, 0.6) 30.00%);
     border-radius: 32px;
     box-shadow: 0px 0px 1px 2px #000;
+}
+
+/* АВТОРИЗАЦИЯ */
+.authorization-panel {
+    margin: 3% 20% 5%;
+    background: linear-gradient(230deg, #5E5861 3%, rgba(132, 128, 135, 0.7) 35.00%);
+    text-align: center;
+    padding: 2% 4% 3%;
+    box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
+    border-radius:10px;
+}
+
+.authorization-panel .form-group {
+    padding: 2%;
 }
