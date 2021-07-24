@@ -11,9 +11,11 @@ spring:
     change-log: db.changelog/db.changelog-master.xml
   mvc:
     view:
-      prefix: /WEB-INF/templates/
+      prefix: /templates/
       suffix: .html
-
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
 log:
   file:
     path: log.file.path= D:\\

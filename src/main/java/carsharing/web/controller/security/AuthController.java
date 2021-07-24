@@ -5,6 +5,7 @@ import carsharing.service.CustomerService;
 import carsharing.service.RoleService;
 import carsharing.service.security.JwtTokenProvider;
 import carsharing.web.dto.CustomerAuthenticationDTO;
+import carsharing.web.dto.CustomerDTO;
 import carsharing.web.mapper.CustomerMapper;
 import org.mapstruct.factory.Mappers;
 import org.slf4j.Logger;
@@ -49,21 +50,21 @@ public class AuthController {
 
     private static final Logger LOG = LoggerFactory.getLogger(AuthController.class);
 
-    @PostMapping(value = "/signup", produces = "application/json", consumes="application/json")
-    public CustomerAuthenticationDTO signUp(@RequestBody CustomerAuthenticationDTO customerAuthenticationDTO) {
-        if (customerService.getCustomerByEmail(customerAuthenticationDTO.getEmail()) != null) {
+    @PostMapping(value = "/signup")
+    public String signUp(@ModelAttribute("CustomerDTO") CustomerDTO customerDTO) {
+        if (customerService.getCustomerByEmail(customerDTO.getEmail()) != null) {
            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email is already taken.");
         }
-        Customer customer = customerMapper.convertToEntity(customerAuthenticationDTO);
+        Customer customer = customerMapper.convertToEntity(customerDTO);
         customer.setRoles(Collections.singleton(roleService.findById(1L)));
-        customer.setPassword(passwordEncoder.encode(customerAuthenticationDTO.getPassword()));
+        customer.setPassword(passwordEncoder.encode(customerDTO.getPassword()));
         customerService.save(customer);
-        LOG.info("Customer " + customerAuthenticationDTO.getEmail() + " registered");
-        return customerAuthenticationDTO;
+        LOG.info("Customer " + customerDTO.getEmail() + " registered");
+        return "login";
     }
 
     @PostMapping(value = "/signin")
-    public String singIn(@ModelAttribute("CustomerAuthenticationDTO") CustomerAuthenticationDTO customerAuthenticationDTO,
+    public String singIn(@ModelAttribute("customerAuthenticationDTO") CustomerAuthenticationDTO customerAuthenticationDTO,
                                HttpServletResponse response) {
         try {
             Authentication authentication = authenticationManager.authenticate(
@@ -90,6 +91,12 @@ public class AuthController {
             return "login";
         }
         return "redirect:/m-panel";
+    }
+
+    @GetMapping(value = "/signup")
+    public String singUp(Model model) {
+        model.addAttribute("customer", new CustomerDTO());
+        return "registration";
     }
 
     @GetMapping("/logout")

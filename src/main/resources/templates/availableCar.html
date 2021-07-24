@@ -14,10 +14,10 @@
                 <div class="col">
                 <img th:src="@{/image/background-car.png}" class="card-img-top" alt="car">
                 <div class="card-body">
-                    <h5 class="card-title"><td th:text="${car.brand}"/></h5>
+                    <h5 class="card-title"><td th:text="${car.brand}"/> <span th:if="${car.brand == 'BMW i4'}" class="badge bg-success">LEADER</span></h5>
                     <p class="card-text">
                         <b>Car type:</b> <td th:text="${car.getType()}"/>
-                        <br/><b>Rate [<td th:text="${car.rate.getType()}"/>]:</b> <td th:text="${car.rate.name}"/> - <td th:text="${car.rate.getCost()}"/> $
+                        <br/><b>Rate [<td th:text="${car.rate.getType()}"/>]:</b> <td th:text="${car.rate.name}"/> - <td th:text="${car.rate.getCost()}"/> $ <span th:if="${car.rate.cost < 15}" class="badge bg-danger">x2 benefit</span>
                         <br/><b>Fuel:</b> <td th:text="${car.fuel}"/>L
                     </p>
                     <a href="#" class="btn btn-outline-warning"><b>to rent car</b></a>

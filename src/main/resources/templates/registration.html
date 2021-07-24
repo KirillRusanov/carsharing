@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Carsharing Grodno</title>
+    <div th:replace="fragments/header :: header-css"/>
+</head>
+<body class="banner">
+<div th:replace="fragments/header :: header"/>
+
+<div class="container">
+    <div class="authorization-panel">
+        <form th:action="@{/api/auth/signup}" th:object="${customer}" method="post">
+            <h2 class="text-white">Registration. Please Sign up</h2>
+            <div class="input-group">
+                <div class="form-group">
+                    <input th:field="*{name}" type="text" name="name" class="form-control input-lg"
+                           placeholder="First Name" required="true" autofocus="true"/>
+                </div>
+                <div class="form-group">
+                    <input th:field="*{surname}" type="text" name="surname" class="form-control input-lg"
+                           placeholder="Last Name" required="true"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <input th:field="*{phone_number}" type="text" name="phone_number" class="form-control input-lg"
+                       placeholder="Phone number" required="true" autofocus="true"/>
+            </div>
+            <div class="form-group">
+                <input th:field="*{email}" type="text" name="username" class="form-control input-lg"
+                       placeholder="Email" required="true" autofocus="true"/>
+            </div>
+            <div class="form-group">
+                <input th:field="*{password}" type="password" name="password" class="form-control input-lg"
+                       placeholder="Password" required="true"/>
+            </div>
+
+            <input type="submit" class="btn btns-authorization btn-lg btn-info btn-block border-dark" value="Sign up"/>
+            <p class="text-white-50">Already have an account? - > <a href="/carsharing/api/auth/signin" class="link-warning">Sign in</a></p>
+
+        </form>
+    </div>
+</div>
+</body>
+</html>

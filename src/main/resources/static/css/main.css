@@ -100,3 +100,8 @@ nav {
 .authorization-panel .form-group {
     padding: 2%;
 }
+
+.btns-authorization {
+    padding-left: 20%;
+    padding-right: 20%;
+}
