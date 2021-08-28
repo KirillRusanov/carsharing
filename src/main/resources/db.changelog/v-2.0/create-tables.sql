@@ -18,6 +18,6 @@ DELETE FROM `rate`
 GO
 ALTER TABLE `deal` DROP COLUMN `date`;
 GO
-ALTER TABLE `deal` ADD `start_date` DATE NOT NULL
+ALTER TABLE `deal` ADD `start_date` TIMESTAMP NOT NULL
 GO
-ALTER TABLE `deal` ADD `end_date` DATE NULL
+ALTER TABLE `deal` ADD `end_date` TIMESTAMP NULL

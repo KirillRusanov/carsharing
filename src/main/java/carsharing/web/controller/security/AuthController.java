@@ -78,7 +78,7 @@ public class AuthController {
             cookie.setPath("/");
             response.addCookie(cookie);
             LOG.info("Client \"{}\" logged into the system", customer.getEmail());
-            return "panel";
+            return "redirect:/m-panel";
         } catch (AuthenticationException ex) {
             return "login";
         }

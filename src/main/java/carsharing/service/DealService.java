@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class DealService {
@@ -46,5 +47,12 @@ public class DealService {
 
     public List<Deal> getDealsByStatus(DealStatus dealStatus) {
         return dealRepository.getDealsByStatus(dealStatus);
+    }
+
+    public List<Deal> getUserDeals(Long id) {
+        return getAll()
+                .stream()
+                .filter(e -> e.getCustomer().getId() == id)
+                .collect(Collectors.toList());
     }
 }

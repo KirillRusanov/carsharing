@@ -6,9 +6,80 @@
 </head>
 <body class="banner">
 <div th:replace="fragments/header :: header"/>
+<div class="container">
+    <div class="cars-panel">
+        <div sec:authorize="isAuthenticated()">
+            <div class="tools">
+                <button type="button" class="profile btn btn-primary position-relative">
+                    Profile
+                    <span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle"/>
+                </button>
+                <button type="button" class="btn btn-primary position-relative">
+                    Inbox
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                        99+<span class="visually-hidden">unread messages</span></span>
+                </button>
+                <button type="button" class="btn btn-primary">
+                    Deals: <span class="badge bg-secondary">4</span>
+                </button>
+            </div>
+            <div class="admin-functions" sec:authorize="hasRole('ROLE_ADMIN')">
+                <button onclick="hidePanel();" class="btn btn-danger">Specialist tools</button>
+                <button onclick="hidePanel();" class="btn btn-danger">Adm tools</button>
+            </div>
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Deals</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/carsharing/partnership">Partnership</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                </li>
+            </ul>
 
-<div sec:authorize="isAnonymous()">
-HELLO WORLD
+            <div class="table-deals">
+                <table class="table table-dark border-white border-2 table-hover">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Car</th>
+                        <th scope="col">Cost (Type rate)</th>
+                        <th scope="col">Start Date</th>
+                        <th scope="col">End Date</th>
+                        <th scope="col">Tools</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="deal, state : ${deals}">
+                        <th scope="row" th:utext="${state.count}"></th>
+                        <td><span class="badge" th:utext="${deal.getStatus()}" th:classappend="${
+                        (deal.getStatus().toString().equals('ACTIVE') ? 'bg-success' : '') +
+                        (deal.getStatus().toString().equals('WAITING') ? 'bg-warning' : '') +
+                        (deal.getStatus().toString().equals('FINISHED') ? 'bg-danger' : '') +
+                        (deal.getStatus().toString().equals('TERMINATED') ? 'bg-secondary' : '')}"></span></td>
+                        <td th:utext="${deal.car.getBrand()}"></td>
+                        <td th:utext="${deal.car.rate.cost} + ' (' + ${deal.car.rate.getType()} + ')'"></td>
+                        <td th:utext="${deal.getStartDateForView()}"></td>
+                        <td th:utext="${deal.endDate != null} ? ${deal.getEndDateForView()} : 'in process'"></td>
+                        <td>
+                            <a href="#"><img class="panel-icon" th:src="@{/image/panel-icon.png}"/></a>
+                            <a href="#"><img class="panel-icon" th:src="@{/image/settings-icon.png}"/></a></td>
+                        <td><button class="btn-danger" th:utext="
+                        ${((deal.status.toString().equals('ACTIVE') ||
+                         (deal.status.toString().equals('WAITING'))) ? 'terminate' : 'get receipt')}"></button></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>

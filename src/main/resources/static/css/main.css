@@ -105,3 +105,46 @@ nav {
     padding-left: 20%;
     padding-right: 20%;
 }
+.tools {
+    display: flex;
+    margin-bottom: 1%;
+    margin-left: 6%;
+}
+.tools button {
+    margin-right: 1%;
+    margin-top: 1%;
+}
+.admin-functions {
+    margin-bottom: 1%;
+    margin-left: 6%;
+}
+.admin-functions button {
+    margin-right: 1%;
+}
+.table-deals {
+    margin-left: 3%;
+    margin-right: 3%;
+    margin-top: 3%;
+}
+.badge-finished {
+    display: inline-block;
+    padding: 0.35em 0.65em;
+    font-size: 0.75em;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.25rem;
+    background-color: #dc3545 !important;
+}
+.panel-icon {
+    padding-left: 1px;
+    padding-right: 1px;
+    margin-right: 1px;
+    width: 25px;
+    height: 25px;
+    background-color: white;
+    border-radius: 10px 0 0 0px;
+}
