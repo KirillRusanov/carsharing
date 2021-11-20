@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Carsharing Grodno</title>
+    <div th:replace="fragments/header :: header-css"/>
+</head>
+<body class="banner">
+<div th:replace="fragments/header :: header"/>
+
+<div class="container">
+    <div class="cars-panel">
+        <div class="row row-cols-3 cards-space">
+            <div class="card bg-dark text-white" th:each="car : ${cars}" style="width: 20rem;">
+                <div class="col">
+                <img th:src="@{/image/background-car.png}" class="card-img-top" alt="car">
+                <div class="card-body">
+                    <h5 class="card-title"><td th:text="${car.brand}"/> <span th:if="${car.brand == 'BMW i4'}" class="badge bg-success">LEADER</span></h5>
+                    <p class="card-text">
+                        <b>Car type:</b> <td th:text="${car.getType()}"/>
+                        <br/><b>Rate [<td th:text="${car.rate.getType()}"/>]:</b> <td th:text="${car.rate.name}"/> - <td th:text="${car.rate.getCost()}"/> $
+                        <br/><b>Fuel:</b> <td th:text="${car.fuel}"/>L
+                    </p>
+                    <a href="#" class="btn btn-outline-warning"><b>to rent car</b></a>
+                    <a href="#" class="btn btn-outline-info"><b>description</b></a>
+                </div>
+                </div>
+        </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -9,8 +9,13 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   liquibase:
     change-log: db.changelog/db.changelog-master.xml
-
-
+  mvc:
+    view:
+      prefix: /templates/
+      suffix: .html
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
 log:
   file:
     path: log.file.path= D:\\
@@ -20,9 +25,4 @@ security:
     secretKey: apple
     expirationToken: 86400000
 
-server:
-  servlet:
-    session:
-      cookie:
-        max-age: 86400000
 ---

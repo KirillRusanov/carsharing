@@ -1,0 +1,17 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link media="all" th:href="@{/css/bootstrap.css}" rel="stylesheet" type="text/css"/>
+    <link media="all" th:href="@{/css/main.css}" rel="stylesheet" type="text/css"/>
+    <div th:replace="fragments/header :: header-css"/>
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"/>
+
+<div class="container">
+        <h1>403 - Access is denied</h1>
+        <div th:inline="text">Hello, you do not have permission to access this page.</div>
+</div>
+</body>
+</html>

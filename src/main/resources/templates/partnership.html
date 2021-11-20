@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://java.sun.com/jsf/core">
+<head>
+    <title>Carsharing Grodno</title>
+    <div th:replace="fragments/header :: header-css"/>
+</head>
+<body class="banner">
+<div th:replace="fragments/header :: header"/>
+<div class="container">
+    <div class="cars-panel">
+        <div sec:authorize="isAuthenticated()">
+            <div class="tools">
+                <button type="button" class="profile btn btn-primary position-relative">
+                    Profile
+                    <span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle"/>
+                </button>
+                <button type="button" class="btn btn-primary position-relative">
+                    Inbox
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                        99+<span class="visually-hidden">unread messages</span></span>
+                </button>
+                <button type="button" class="btn btn-primary">
+                    Deals: <span class="badge bg-secondary">4</span>
+                </button>
+            </div>
+            <div class="admin-functions" sec:authorize="hasRole('ROLE_ADMIN')">
+                <button onclick="hidePanel();" class="btn btn-danger">Specialist tools</button>
+                <button onclick="hidePanel();" class="btn btn-danger">Adm tools</button>
+            </div>
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link" href="/carsharing/m-panel">Deals</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/carsharing/partnership">Partnership</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Carsharing Grodno</title>
+    <div th:replace="fragments/header :: header-css"/>
+</head>
+<body class="banner">
+<div th:replace="fragments/header :: header"/>
+
+<div class="container">
+    <div class="authorization-panel">
+        <form th:action="@{/api/auth/signin}" th:object="${customer}" method="post">
+            <h2 class="text-white">Authorization. Please Sign in</h2>
+
+            <div class="form-group">
+                <input th:field="*{email}" type="text" class="form-control input-lg"
+                       placeholder="Email" required="true" autofocus="true"/>
+            </div>
+            <div class="form-group">
+                <input th:field="*{password}" type="password" class="form-control input-lg"
+                       placeholder="Password" required="true"/>
+            </div>
+
+            <input type="submit" class="btn btns-authorization btn-lg btn-info btn-block border-dark" value="Sign in"/>
+            <p class="text-white-50">Don't have an account yet? - > <a href="/carsharing/api/auth/signup" class="link-warning">Sign up</a></p>
+
+        </form>
+    </div>
+</div>
+</body>
+</html>

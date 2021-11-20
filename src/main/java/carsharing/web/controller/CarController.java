@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("api/cars")
-@PreAuthorize("hasAnyRole('CUSTOMER', 'SPECIALIST', 'ADMIN')")
 public class CarController {
 
     @Autowired
@@ -40,8 +40,10 @@ public class CarController {
     }
 
     @GetMapping(value = "/available")
-    public List<CarDTO> getAvailableCars() {
-        return carMapper.convertToDTO(carService.getAvailableCars());
+    public ModelAndView getAvailableCars(ModelAndView model) {
+        model.addObject("cars", carMapper.convertToDTO(carService.getAvailableCars()));
+        model.setViewName("availableCar");
+        return model;
     }
 
     @GetMapping(value = "/{id}/control-panel")

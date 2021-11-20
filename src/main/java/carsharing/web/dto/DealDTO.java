@@ -7,6 +7,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.time.OffsetTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.util.TimeZone;
 
 @Data
 public class DealDTO {
@@ -25,4 +30,12 @@ public class DealDTO {
 
     @JsonIgnore
     private Customer customer;
+
+    public String getStartDateForView() {
+        return startDate.format(DateTimeFormatter.ofPattern("uuuu - d MMM HH:mm:ss"));
+    }
+
+    public String getEndDateForView() {
+        return endDate.format(DateTimeFormatter.ofPattern("uuuu - d MMM HH:mm:ss"));
+    }
 }

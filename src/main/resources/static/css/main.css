@@ -1,0 +1,150 @@
+a {
+    text-decoration: none; !important;
+    color: #F8EDED; !important;
+    font-weight: bold;
+}
+a:hover {
+    color: #F8EDED;
+}
+body {
+    left: 0px;
+    top: 0px;
+}
+.banner {
+    background-image: url("../image/background.jpg");
+    background-attachment: fixed;
+}
+nav {
+    background: linear-gradient(180deg, #5E5861 0%, rgba(132, 128, 135, 0.6) 69.06%);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+.navbar-brand {
+    margin-left: 12.5%;
+    margin-right: 12.5%;
+}
+.nav-link {
+    white-space: nowrap;
+}
+
+.nav-item {
+    text-transform: uppercase;
+    padding-right: 6%;
+    padding-left: 6%;
+    border: #000000;
+    letter-spacing: 3px;
+}
+
+.navbar-nav li {
+    border-right: 1px solid #ffffff;
+    display: block;
+}
+
+.navbar-nav li:last-child {
+    border-right: none;
+    background-color: #dc3545;
+    margin-left: 6%;
+    border-radius: 0px 35px 0px 35px;
+    box-shadow: 0px 0px 1px 0.5px #000;
+}
+
+.navbar-nav li:hover {
+    text-decoration: none;
+    background-color: #dc3545;
+    border-radius: 0px 35px 35px 0px;
+}
+
+.navbar-nav li:last-child:hover {
+    text-decoration: none;
+    background-color: #dc3545;
+    border-radius: 0px 35px 0px 35px;
+}
+.dis-1 {
+    margin-top:15%;
+    color:#F8EDED;
+    text-transform: uppercase;
+    font-family: "Mongolian Baiti", fantasy;
+}
+/* КАРТИНКА */
+.card-img-top {
+    border-radius: 20px;
+    margin-top:5%;
+}
+/* КАРТОЧКИ */
+.card {
+    margin: 3% 2% 2%;
+    border-radius: 10px 32px;
+}
+.cards-space {
+    display: flex;
+    margin: 6%;
+}
+/* ПАНЕЛЬ ДОСТУПНЫЕ АВТО */
+.cars-panel {
+    margin-top: 3%;
+    padding-bottom: 8%;
+    background: linear-gradient(40deg, #5E5861 0%, rgba(132, 128, 135, 0.6) 30.00%);
+    border-radius: 32px;
+    box-shadow: 0px 0px 1px 2px #000;
+}
+
+/* АВТОРИЗАЦИЯ */
+.authorization-panel {
+    margin: 3% 20% 5%;
+    background: linear-gradient(230deg, #5E5861 3%, rgba(132, 128, 135, 0.7) 35.00%);
+    text-align: center;
+    padding: 2% 4% 3%;
+    box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
+    border-radius:10px;
+}
+
+.authorization-panel .form-group {
+    padding: 2%;
+}
+
+.btns-authorization {
+    padding-left: 20%;
+    padding-right: 20%;
+}
+.tools {
+    display: flex;
+    margin-bottom: 1%;
+    margin-left: 6%;
+}
+.tools button {
+    margin-right: 1%;
+    margin-top: 1%;
+}
+.admin-functions {
+    margin-bottom: 1%;
+    margin-left: 6%;
+}
+.admin-functions button {
+    margin-right: 1%;
+}
+.table-deals {
+    margin-left: 3%;
+    margin-right: 3%;
+    margin-top: 3%;
+}
+.badge-finished {
+    display: inline-block;
+    padding: 0.35em 0.65em;
+    font-size: 0.75em;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.25rem;
+    background-color: #dc3545 !important;
+}
+.panel-icon {
+    padding-left: 1px;
+    padding-right: 1px;
+    margin-right: 1px;
+    width: 25px;
+    height: 25px;
+    background-color: white;
+    border-radius: 10px 0 0 0px;
+}
