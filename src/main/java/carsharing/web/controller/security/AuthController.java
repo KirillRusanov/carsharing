@@ -80,7 +80,7 @@ public class AuthController {
             LOG.info("Client \"{}\" logged into the system", customer.getEmail());
             return "redirect:/m-panel";
         } catch (AuthenticationException ex) {
-            return "login";
+            return "redirect:/api/auth/signin";
         }
     }
 
