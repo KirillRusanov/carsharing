@@ -2,6 +2,9 @@ package carsharing.service;
 
 import carsharing.dao.model.Rate;
 import carsharing.dao.repository.RateRepository;
+import carsharing.web.dto.RateDTO;
+import carsharing.web.mapper.RateMapper;
+import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,12 +16,14 @@ public class RateService {
     @Autowired
     private RateRepository rateRepository;
 
-    public ArrayList<Rate> getAll() {
-        return (ArrayList<Rate>) rateRepository.findAll();
+    private RateMapper rateMapper = Mappers.getMapper(RateMapper.class);
+
+    public ArrayList<RateDTO> getAll() {
+        return (ArrayList<RateDTO>) rateMapper.convertToDTO(rateRepository.findAll());
     }
 
-    public Rate findById(Long id) {
-        return rateRepository.findById(id);
+    public RateDTO findById(Long id) {
+        return rateMapper.convertToDTO(rateRepository.findById(id));
     }
 
     public void delete(Long id) {
@@ -29,4 +34,7 @@ public class RateService {
         rateRepository.saveOrUpdate(entity);
     }
 
+    public void save(RateDTO rateDTO) {
+        rateRepository.saveOrUpdate(rateMapper.convertToEntity(rateDTO));
+    }
 }

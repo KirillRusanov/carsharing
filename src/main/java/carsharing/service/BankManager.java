@@ -24,7 +24,7 @@ public class BankManager {
         }
         throw new DealPaymentException("Denied payment. Not enough money on the card");
     }
-
+    // TODO - need to delete this random :)
     private boolean request(Card card, long totalPrice) {
         LOG.info(card.getNumber() + " - requested balance" + " access code: " + card.getCode());
         long balanceCard = new Random().nextLong() * 130;

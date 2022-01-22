@@ -1,23 +1,23 @@
 package carsharing.web.controller;
 
-import carsharing.dao.model.*;
-import carsharing.service.*;
+import carsharing.service.CustomerService;
+import carsharing.service.DealService;
 import carsharing.service.exception.DealPaymentException;
-import carsharing.web.dto.DealDTO;
-import carsharing.web.dto.Receipt;
-import carsharing.web.mapper.DealMapper;
-import org.mapstruct.factory.Mappers;
+import carsharing.web.dto.CustomerAuthenticationDTO;
+import carsharing.web.dto.CustomerDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.ModelAndView;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
-@RestController
+@Controller
 @RequestMapping("api/deal")
 @PreAuthorize("hasAnyRole('CUSTOMER', 'SPECIALIST', 'ADMIN')")
 public class DealController {
@@ -25,55 +25,48 @@ public class DealController {
     @Autowired
     private DealService dealService;
     @Autowired
-    private CarService carService;
-    @Autowired
     private CustomerService customerService;
-    @Autowired
-    private DealManager dealManager;
 
-    private DealMapper dealMapper = Mappers.getMapper(DealMapper.class);
-
-    @PostMapping(value = "/start", produces = "application/json", consumes = "application/json")
-    public DealDTO startDeal(@RequestParam("car") Long carId, @AuthenticationPrincipal Customer customerDetails, @RequestBody DealDTO dealDTO) {
-        Car rentedCar = carService.findById(carId);
-        if (carId != null) {
-            if(dealDTO.getDescription() != null) {
-                if (customerDetails.is_verified()) {
-                    if (rentedCar.getCar_status().equals(CarStatus.AVAILABLE)) {
-                        rentedCar.setCar_status(CarStatus.BUSY);
-                        dealDTO.setCar(rentedCar);
-                        dealDTO.setCustomer(customerService.getCustomerByEmail(customerDetails.getUsername()));
-                        carService.save(rentedCar);
-                        dealService.openDeal(dealMapper.convertToEntity(dealDTO));
-                        return dealDTO;
-                    }
-                }
-            }
+    @PostMapping(value = "/start")
+    public ModelAndView startDeal(Authentication authentication, ModelAndView model, @RequestParam("carId") Long carId) {
+        if (authentication == null) {
+            model.addObject("customer", new CustomerAuthenticationDTO());
+            model.setViewName("login");
+            return model;
         }
-        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Deal rejected");
+        if (carId != null) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            CustomerDTO customerDTO = customerService.getCustomerDTOByEmail(userDetails.getUsername());
+            dealService.openDeal(userDetails.getUsername(), carId);
+            model.setViewName("panel");
+            model.addObject("deals", dealService.getUserDeals(customerDTO.getId()));
+            return model;
+        }
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Incorrect data. Opening the deal was denied");
     }
 
-    @PostMapping(value = "/close", produces = "application/json", consumes = "application/json")
-    public Receipt closeDeal(@RequestParam("car") Long carId, @AuthenticationPrincipal Customer customerDetails) {
-        if (carId != null) {
-            List<Deal> deals = customerDetails.getDeals();
-            Car rentedCar = carService.findById(carId);
-            for(Deal deal : deals) {
-                try {
-                    if (deal.getStatus().equals(DealStatus.ACTIVE)) {
-                        Receipt receipt = dealManager.serve(deal);
-                        rentedCar.setCar_status(CarStatus.AVAILABLE);
-                        deal.setEndDate(LocalDateTime.now());
-                        dealService.closeDeal(deal);
-                        carService.save(rentedCar);
-                        return receipt;
-                    }
-                } catch (DealPaymentException ex) {
-                    throw new ResponseStatusException(HttpStatus.PAYMENT_REQUIRED, "Payment failed");
-                } catch (ClassNotFoundException e) {
-                    throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Type of rates does not exist");
-                }
+    @PostMapping(value = "/close")
+    public ModelAndView closeDeal(Authentication authentication, ModelAndView model, @RequestParam("dealId") Long dealId) {
+        if (authentication == null) {
+            model.addObject("customer", new CustomerAuthenticationDTO());
+            model.setViewName("login");
+            return model;
+        }
+        if (dealId != null) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            try {
+                // TODO PDF Reader and show receipts
+                dealService.closeDeal(userDetails.getUsername(), dealId);
+                CustomerDTO customerDTO = customerService.getCustomerDTOByEmail(userDetails.getUsername());
+                model.setViewName("panel");
+                model.addObject("deals", dealService.getUserDeals(customerDTO.getId()));
+                return model;
+            } catch (DealPaymentException ex) {
+                throw new ResponseStatusException(HttpStatus.PAYMENT_REQUIRED, ex.getMessage());
+            } catch (ClassNotFoundException e) {
+                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Type of rates does not exist");
             }
+
         }
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Incorrect data. Closing the deal was denied");
     }

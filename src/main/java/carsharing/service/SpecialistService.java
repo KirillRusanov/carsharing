@@ -2,6 +2,9 @@ package carsharing.service;
 
 import carsharing.dao.model.Specialist;
 import carsharing.dao.repository.SpecialistRepository;
+import carsharing.web.dto.SpecialistDTO;
+import carsharing.web.mapper.SpecialistMapper;
+import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,12 +16,14 @@ public class SpecialistService {
     @Autowired
     private SpecialistRepository specialistRepository;
 
-    public ArrayList<Specialist> getAll() {
-        return (ArrayList<Specialist>) specialistRepository.findAll();
+    private SpecialistMapper specialistMapper = Mappers.getMapper(SpecialistMapper.class);
+
+    public ArrayList<SpecialistDTO> getAll() {
+        return (ArrayList<SpecialistDTO>) specialistMapper.convertToDTO(specialistRepository.findAll());
     }
 
-    public Specialist findById(Long id) {
-        return specialistRepository.findById(id);
+    public SpecialistDTO findById(Long id) {
+        return specialistMapper.convertToDTO(specialistRepository.findById(id));
     }
 
     public void delete(Long id) {

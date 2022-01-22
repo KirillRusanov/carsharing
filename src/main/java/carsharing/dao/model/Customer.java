@@ -1,7 +1,10 @@
 package carsharing.dao.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -25,13 +28,13 @@ public class Customer extends EntityDetails implements UserDetails {
     private String surname;
 
     @Column(name = "passport_number", unique = true)
-    private String passport_number;
+    private String passportNumber;
 
     @Column(name = "license_number", unique = true)
-    private String license_number;
+    private String licenseNumber;
 
     @Column(name = "phone_number", nullable = false, unique = true)
-    private String phone_number;
+    private String phoneNumber;
 
     @Column(name = "email", nullable = false, unique = true)
     private String email;
@@ -44,7 +47,7 @@ public class Customer extends EntityDetails implements UserDetails {
     private List<Car> cars;
 
     @Column(name = "is_verified")
-    private boolean is_verified;
+    private boolean isVerified;
 
     @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
     private List<Deal> deals;

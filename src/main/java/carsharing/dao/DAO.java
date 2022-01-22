@@ -64,7 +64,7 @@ public class DAO<R extends EntityDetails> {
         Root<Car> root = criteriaQuery.from(Car.class);
         criteriaQuery.select(root);
 
-        criteriaQuery.where(builder.equal(root.get("car_status"), CarStatus.AVAILABLE));
+        criteriaQuery.where(builder.equal(root.get("carStatus"), CarStatus.AVAILABLE));
 
         return entityManager.createQuery(criteriaQuery).getResultList();
     }

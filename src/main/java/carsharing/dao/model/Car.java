@@ -23,7 +23,7 @@ public class Car extends EntityDetails {
 
     @Enumerated(value = EnumType.STRING)
     @Column(name = "car_status", nullable = false)
-    private  CarStatus car_status;
+    private  CarStatus carStatus;
 
     @Column(name = "brand", nullable = false)
     private String brand;

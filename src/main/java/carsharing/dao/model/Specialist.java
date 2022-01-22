@@ -1,6 +1,9 @@
 package carsharing.dao.model;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
@@ -20,7 +23,7 @@ public class Specialist extends EntityDetails {
     private String name;
 
     @Column(name = "phone_number", nullable = false)
-    private String phone_number;
+    private String phoneNumber;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "specialist")
     private List<Customer> clients;

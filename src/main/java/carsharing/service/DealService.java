@@ -1,8 +1,12 @@
 package carsharing.service;
 
-import carsharing.dao.model.Deal;
-import carsharing.dao.model.DealStatus;
+import carsharing.dao.model.*;
 import carsharing.dao.repository.DealRepository;
+import carsharing.service.exception.DealPaymentException;
+import carsharing.web.dto.DealDTO;
+import carsharing.web.dto.Receipt;
+import carsharing.web.mapper.DealMapper;
+import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,40 +20,72 @@ public class DealService {
 
     @Autowired
     private DealRepository dealRepository;
+    @Autowired
+    private CarService carService;
+    @Autowired
+    private CustomerService customerService;
+    @Autowired
+    private DealManager dealManager;
 
-    public ArrayList<Deal> getAll() {
-        return (ArrayList<Deal>) dealRepository.findAll();
+    private DealMapper dealMapper = Mappers.getMapper(DealMapper.class);
+
+    public ArrayList<DealDTO> getAll() {
+        return (ArrayList<DealDTO>) dealMapper.convertToDTO(dealRepository.findAll());
     }
 
-    public Deal findById(Long id) {
-        return dealRepository.findById(id);
+    public DealDTO findById(Long id) {
+        return dealMapper.convertToDTO(dealRepository.findById(id));
     }
 
     public void delete(Long id) {
         dealRepository.delete(id);
     }
 
-    public void save(Deal entity) {
-        dealRepository.saveOrUpdate(entity);
+    public void save(DealDTO deal) {
+        dealRepository.saveOrUpdate(dealMapper.convertToEntity(deal));
     }
 
-
-    public void closeDeal(Deal deal) {
-        deal.setStatus(DealStatus.FINISHED);
-        save(deal);
+    private void save(Deal deal) {
+        dealRepository.saveOrUpdate(deal);
     }
 
-    public void openDeal(Deal deal) {
-        deal.setStartDate(LocalDateTime.now());
-        deal.setStatus(DealStatus.ACTIVE);
-        save(deal);
+    public Receipt closeDeal(String userEmail, long dealId) throws ClassNotFoundException {
+        Deal deal = dealMapper.convertToEntity(findById(dealId));
+        if (deal.getStatus().equals(DealStatus.ACTIVE) && deal.getCustomer().getId() == (customerService.getCustomerByEmail(userEmail).getId())) {
+            Receipt receipt = dealManager.serve(deal);
+            deal.setEndDate(LocalDateTime.now());
+            Car rentedCar = deal.getCar();
+            rentedCar.setCarStatus(CarStatus.AVAILABLE);
+            carService.save(rentedCar);
+            deal.setStatus(DealStatus.FINISHED);
+            save(deal);
+            carService.save(rentedCar);
+            return receipt;
+        }
+        throw new DealPaymentException("Deal already completed or you aren't the owner of the deal.");
     }
 
-    public List<Deal> getDealsByStatus(DealStatus dealStatus) {
-        return dealRepository.getDealsByStatus(dealStatus);
+    public void openDeal(String userEmail, long carId) {
+        Customer customer = customerService.getCustomerByEmail(userEmail);
+        if (customer.isVerified()) {
+            Car desiredCar = carService.findById(carId);
+            if (desiredCar.getCarStatus().equals(CarStatus.AVAILABLE)) {
+                desiredCar.setCarStatus(CarStatus.BUSY);
+                carService.save(desiredCar);
+                Deal deal = new Deal(DealStatus.ACTIVE, null, null, "test", desiredCar, customer);
+                if (deal.getStartDate() == null || deal.getStartDate().isBefore(LocalDateTime.now())) {
+                    deal.setStartDate(LocalDateTime.now());
+                } // TODO get startDate and Description from form "Deal Starting"
+                save(deal);
+            }
+        }
     }
 
-    public List<Deal> getUserDeals(Long id) {
+    public List<DealDTO> getDealsByStatus(DealStatus dealStatus) {
+        return dealMapper.convertToDTO(dealRepository.getDealsByStatus(dealStatus));
+    }
+
+    public List<DealDTO> getUserDeals(Long id) {
         return getAll()
                 .stream()
                 .filter(e -> e.getCustomer().getId() == id)

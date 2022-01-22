@@ -71,9 +71,12 @@
                         <td>
                             <a href="#"><img class="panel-icon" th:src="@{/image/panel-icon.png}"/></a>
                             <a href="#"><img class="panel-icon" th:src="@{/image/settings-icon.png}"/></a></td>
-                        <td><button class="btn-danger" th:utext="
-                        ${((deal.status.toString().equals('ACTIVE') ||
-                         (deal.status.toString().equals('WAITING'))) ? 'terminate' : 'get receipt')}"></button></td>
+                        <td>
+                            <form method="post" th:action="@{/api/deal/close(dealId=${deal.id})}"><button class="btn-danger"
+                                    th:utext="${((deal.status.toString().equals('ACTIVE') || (deal.status.toString().equals('WAITING')))
+                                    ? 'terminate' : 'get receipt')}"></button>
+                            </form>
+                        </td>
                     </tr>
                     </tbody>
                 </table>

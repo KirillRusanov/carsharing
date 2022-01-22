@@ -2,6 +2,9 @@ package carsharing.service;
 
 import carsharing.dao.model.Customer;
 import carsharing.dao.repository.CustomerRepository;
+import carsharing.web.dto.CustomerDTO;
+import carsharing.web.mapper.CustomerMapper;
+import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,13 +19,15 @@ public class CustomerService implements UserDetailsService {
     @Autowired
     private CustomerRepository customerRepository;
 
+    private CustomerMapper customerMapper = Mappers.getMapper(CustomerMapper.class);
 
-    public ArrayList<Customer> getAll() {
-        return (ArrayList<Customer>) customerRepository.findAll();
+
+    public ArrayList<CustomerDTO> getAll() {
+        return (ArrayList<CustomerDTO>) customerMapper.convertToDTO(customerRepository.findAll());
     }
 
-    public Customer findById(Long id) {
-        return customerRepository.findById(id);
+    public CustomerDTO findById(Long id) {
+        return customerMapper.convertToDTO(customerRepository.findById(id));
     }
 
     public boolean delete(Long id) {
@@ -33,13 +38,21 @@ public class CustomerService implements UserDetailsService {
         return false;
     }
 
-    public void save(Customer customer) {
+    public void save(CustomerDTO customer) {
+        customerRepository.saveOrUpdate(customerMapper.convertToEntity(customer));
+    }
+
+    protected void save(Customer customer) {
         customerRepository.saveOrUpdate(customer);
     }
 
 
-    public Customer getCustomerByEmail(String email) {
+    protected Customer getCustomerByEmail(String email) {
         return customerRepository.getCustomerByEmail(email);
+    }
+
+    public CustomerDTO getCustomerDTOByEmail(String email) {
+        return customerMapper.convertToDTO(customerRepository.getCustomerByEmail(email));
     }
 
     @Override
