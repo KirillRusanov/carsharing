@@ -36,6 +36,8 @@ public class AuthController {
     @Autowired
     private SecurityService securityService;
 
+    // TODO решить вопрос с плохими кредами
+
     @PostMapping(value = "/signup")
     public String signUp(@ModelAttribute("CustomerDTO") CustomerDTO customerDTO) {
         if (customerService.getCustomerDTOByEmail(customerDTO.getEmail()) != null) {

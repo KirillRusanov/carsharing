@@ -2,6 +2,8 @@ package carsharing.web.dto;
 
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 @Data
 public class CustomerDTO {
 
@@ -20,4 +22,6 @@ public class CustomerDTO {
     private String license_number;
 
     private String phone_number;
+
+    private BigDecimal balance;
 }

@@ -8,24 +8,24 @@ GO
 
 INSERT INTO `customer` (`id`, `name`, `surname`, `phone_number`,
 `email`, `password`, `passport_number`,
- `license_number`, `is_verified`, `specialist_id`)
+ `license_number`, `is_verified`, `specialist_id`, `balance`)
 values (1, "Max", "Pupkin", "+375295401522",
  "pup@mail.ru", "$2a$10$9/qrbYNjt/YZ7h.KVCoZMuX6ikbTEXF0SXZptbfaCs5MtBVyCvHlG", "E1ARRRRRBB",
- "DDD222", 1, 1);
+ "DDD222", 1, 1, 30.2);
 GO
 INSERT INTO `customer` (`id`, `name`, `surname`, `phone_number`,
 `email`, `password`, `passport_number`,
- `license_number`, `is_verified`, `specialist_id`)
+ `license_number`, `is_verified`, `specialist_id`, `balance`)
 values (2, "Kirill", "Rusanov", "+375295841020",
  "kr.rusanov@mail.ru", "$2a$10$9/qrbYNjt/YZ7h.KVCoZMuX6ikbTEXF0SXZptbfaCs5MtBVyCvHlG", "EBB32122",
- "DDR2112", 1, 3);
+ "DDR2112", 1, 3, 1003.2);
 GO
 INSERT INTO `customer` (`id`, `name`, `surname`, `phone_number`,
 `email`, `password`, `passport_number`,
- `license_number`, `is_verified`, `specialist_id`)
+ `license_number`, `is_verified`, `specialist_id`, `balance`)
 values (3, "Nikita", "Vaskin", "+3752912322219",
  "vaskin@mail.ru", "$2a$10$9/qrbYNjt/YZ7h.KVCoZMuX6ikbTEXF0SXZptbfaCs5MtBVyCvHlG", "E1PBBF123",
- "RBB322", 1, 1);
+ "RBB322", 1, 1, 1321.20);
 GO
 
 

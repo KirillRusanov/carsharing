@@ -40,6 +40,7 @@ public class DealController {
             dealService.openDeal(userDetails.getUsername(), carId);
             model.setViewName("panel");
             model.addObject("deals", dealService.getUserDeals(customerDTO.getId()));
+            model.addObject("customer", customerDTO);
             return model;
         }
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Incorrect data. Opening the deal was denied");
@@ -60,6 +61,7 @@ public class DealController {
                 CustomerDTO customerDTO = customerService.getCustomerDTOByEmail(userDetails.getUsername());
                 model.setViewName("panel");
                 model.addObject("deals", dealService.getUserDeals(customerDTO.getId()));
+                model.addObject("customer", customerDTO);
                 return model;
             } catch (DealPaymentException ex) {
                 throw new ResponseStatusException(HttpStatus.PAYMENT_REQUIRED, ex.getMessage());

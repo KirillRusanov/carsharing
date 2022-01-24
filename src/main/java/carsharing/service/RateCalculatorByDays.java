@@ -23,6 +23,6 @@ public class RateCalculatorByDays implements RateCalculator {
     @Override
     public long consider(Deal deal) {
         long totalTime = (LocalDateTime.now().getDayOfYear() - deal.getStartDate().getDayOfYear());
-        return totalTime * deal.getCar().getRate().getCost();
+        return totalTime != 0 ? totalTime * deal.getCar().getRate().getCost() : deal.getCar().getRate().getCost();
     }
 }

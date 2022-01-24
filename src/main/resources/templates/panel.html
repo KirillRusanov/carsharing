@@ -14,18 +14,9 @@
                     Profile
                     <span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle"/>
                 </button>
-                <button type="button" class="btn btn-primary position-relative">
-                    Inbox
-                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                        99+<span class="visually-hidden">unread messages</span></span>
-                </button>
                 <button type="button" class="btn btn-primary">
-                    Deals: <span class="badge bg-secondary">4</span>
+                    Balance: <span class="badge bg-secondary" th:text="${customer.balance} + ' $'"/>
                 </button>
-            </div>
-            <div class="admin-functions" sec:authorize="hasRole('ROLE_ADMIN')">
-                <button onclick="hidePanel();" class="btn btn-danger">Specialist tools</button>
-                <button onclick="hidePanel();" class="btn btn-danger">Adm tools</button>
             </div>
             <ul class="nav nav-tabs">
                 <li class="nav-item">
@@ -35,10 +26,10 @@
                     <a class="nav-link" href="/carsharing/partnership">Partnership</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
+                    <a class="nav-link" sec:authorize="hasAnyRole('ROLE_SPECIALIST', 'ROLE_ADMIN')" href="#">SUPPORT</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                    <a class="nav-link" sec:authorize="hasRole('ROLE_ADMIN')" href="#">MANAGEMENT</a>
                 </li>
             </ul>
 

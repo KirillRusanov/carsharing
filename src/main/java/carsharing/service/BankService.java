@@ -11,9 +11,9 @@ import java.util.Random;
 import java.util.UUID;
 
 @Component
-public class BankManager {
+public class BankService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(BankManager.class);
+    private static final Logger LOG = LoggerFactory.getLogger(BankService.class);
 
     public String withdraw(Customer customer, long totalPrice) {
         for(Card card : customer.getCards()) {
@@ -24,7 +24,7 @@ public class BankManager {
         }
         throw new DealPaymentException("Denied payment. Not enough money on the card");
     }
-    // TODO - need to delete this random :)
+
     private boolean request(Card card, long totalPrice) {
         LOG.info(card.getNumber() + " - requested balance" + " access code: " + card.getCode());
         long balanceCard = new Random().nextLong() * 130;

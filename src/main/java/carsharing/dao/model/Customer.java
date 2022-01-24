@@ -9,6 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -38,6 +39,9 @@ public class Customer extends EntityDetails implements UserDetails {
 
     @Column(name = "email", nullable = false, unique = true)
     private String email;
+
+    @Column(name = "balance", nullable = false)
+    private BigDecimal balance;
 
     @JsonIgnore
     @Column(name ="password", nullable = false)
