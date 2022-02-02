@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Data
 @Builder
@@ -26,5 +27,11 @@ public class Receipt {
 
     private LocalDateTime dateEndDeal;
 
+    public String getStartDate() {
+        return dateStartDeal.format(DateTimeFormatter.ofPattern("dd.mm.uuuu HH:mm:ss"));
+    }
 
+    public String getEndDate() {
+        return dateEndDeal.format(DateTimeFormatter.ofPattern("dd.mm.uuuu HH:mm:ss"));
+    }
 }

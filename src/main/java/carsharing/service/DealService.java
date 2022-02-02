@@ -2,6 +2,7 @@ package carsharing.service;
 
 import carsharing.dao.model.*;
 import carsharing.dao.repository.DealRepository;
+import carsharing.service.documentService.pdf.receipt.DealReceiptGenerator;
 import carsharing.service.exception.DealPaymentException;
 import carsharing.web.dto.DealDTO;
 import carsharing.web.dto.Receipt;
@@ -10,6 +11,7 @@ import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +28,8 @@ public class DealService {
     private CustomerService customerService;
     @Autowired
     private DealManager dealManager;
+    @Autowired
+    private DealReceiptGenerator receiptGenerator;
 
     private DealMapper dealMapper = Mappers.getMapper(DealMapper.class);
 
@@ -53,6 +57,12 @@ public class DealService {
         Deal deal = dealMapper.convertToEntity(findById(dealId));
         if (deal.getStatus().equals(DealStatus.ACTIVE) && deal.getCustomer().getId() == (customerService.getCustomerByEmail(userEmail).getId())) {
             Receipt receipt = dealManager.serve(deal);
+            try {
+                File receiptTempFile = receiptGenerator.createReceipt(receipt);
+                System.out.println(receiptTempFile.getAbsolutePath());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             deal.setEndDate(LocalDateTime.now());
             Car rentedCar = deal.getCar();
             rentedCar.setCarStatus(CarStatus.AVAILABLE);
