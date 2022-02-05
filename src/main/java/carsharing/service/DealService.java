@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,23 +58,32 @@ public class DealService {
     public Receipt closeDeal(String userEmail, long dealId) throws ClassNotFoundException {
         Deal deal = dealMapper.convertToEntity(findById(dealId));
         if (deal.getStatus().equals(DealStatus.ACTIVE) && deal.getCustomer().getId() == (customerService.getCustomerByEmail(userEmail).getId())) {
-            Receipt receipt = dealManager.serve(deal);
             try {
+                Car rentedCar = deal.getCar();
+                processCarForClosingDeal(rentedCar);
+                carService.save(rentedCar);
+
+                Receipt receipt = dealManager.serve(deal);
                 File receiptTempFile = receiptGenerator.createReceipt(receipt);
-                System.out.println(receiptTempFile.getAbsolutePath());
+                processDealForClosing(deal, receiptTempFile);
+                save(deal);
+                return receipt;
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            deal.setEndDate(LocalDateTime.now());
-            Car rentedCar = deal.getCar();
-            rentedCar.setCarStatus(CarStatus.AVAILABLE);
-            carService.save(rentedCar);
-            deal.setStatus(DealStatus.FINISHED);
-            save(deal);
-            carService.save(rentedCar);
-            return receipt;
         }
         throw new DealPaymentException("Deal already completed or you aren't the owner of the deal.");
+    }
+
+    private void processDealForClosing(Deal deal, File receiptTempFile) throws IOException {
+        byte[] receiptBytes = Files.readAllBytes(receiptTempFile.toPath());
+        deal.setReceipt(receiptBytes);
+        deal.setStatus(DealStatus.FINISHED);
+        deal.setEndDate(LocalDateTime.now());
+    }
+
+    private void processCarForClosingDeal(Car rentedCar) {
+        rentedCar.setCarStatus(CarStatus.AVAILABLE);
     }
 
     public void openDeal(String userEmail, long carId) {
@@ -82,7 +93,7 @@ public class DealService {
             if (desiredCar.getCarStatus().equals(CarStatus.AVAILABLE)) {
                 desiredCar.setCarStatus(CarStatus.BUSY);
                 carService.save(desiredCar);
-                Deal deal = new Deal(DealStatus.ACTIVE, null, null, "test", desiredCar, customer);
+                Deal deal = new Deal(DealStatus.ACTIVE, null, null, "test", desiredCar, customer,null);
                 if (deal.getStartDate() == null || deal.getStartDate().isBefore(LocalDateTime.now())) {
                     deal.setStartDate(LocalDateTime.now());
                 } // TODO get startDate and Description from form "Deal Starting"

@@ -36,4 +36,8 @@ public class Deal extends EntityDetails {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id")
     private Customer customer;
+
+    @Lob
+    @Column(name = "receipt", columnDefinition="BLOB")
+    private byte[] receipt;
 }
