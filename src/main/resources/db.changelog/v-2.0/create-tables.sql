@@ -22,4 +22,6 @@ ALTER TABLE `deal` ADD `start_date` TIMESTAMP NOT NULL
 GO
 ALTER TABLE `deal` ADD `end_date` TIMESTAMP NULL
 GO
+ALTER TABLE `deal` ADD receipt BLOB;
+GO
 ALTER TABLE `customer` ADD `balance` NUMERIC(15, 2) NOT NULL DEFAULT 0
