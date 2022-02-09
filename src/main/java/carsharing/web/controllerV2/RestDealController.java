@@ -1,4 +1,4 @@
-package carsharing.web.controller;
+package carsharing.web.controllerV2;
 
 import carsharing.service.CustomerService;
 import carsharing.service.DealService;
@@ -18,9 +18,9 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("api/deal")
+@RequestMapping("api/rest/deal")
 @PreAuthorize("hasAnyRole('CUSTOMER', 'SPECIALIST', 'ADMIN')")
-public class DealController {
+public class RestDealController {
 
     @Autowired
     private DealService dealService;

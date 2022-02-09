@@ -3,7 +3,8 @@ package carsharing.service;
 import carsharing.dao.model.*;
 import carsharing.dao.repository.DealRepository;
 import carsharing.service.documentService.pdf.receipt.DealReceiptGenerator;
-import carsharing.service.exception.DealPaymentException;
+import carsharing.service.exception.deal.DealClosingException;
+import carsharing.service.exception.deal.DealOpeningException;
 import carsharing.web.dto.DealDTO;
 import carsharing.web.dto.Receipt;
 import carsharing.web.mapper.DealMapper;
@@ -57,12 +58,7 @@ public class DealService {
         Deal deal = dealMapper.convertToEntity(findById(dealId));
         if (deal.getStatus().equals(DealStatus.ACTIVE) && deal.getCustomer().getId() == (customerService.getCustomerByEmail(userEmail).getId())) {
             Receipt receipt = dealManager.serve(deal);
-            try {
-                File receiptTempFile = receiptGenerator.createReceipt(receipt);
-                System.out.println(receiptTempFile.getAbsolutePath());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            File receiptTempFile = receiptGenerator.createReceipt(receipt);
             deal.setEndDate(LocalDateTime.now());
             Car rentedCar = deal.getCar();
             rentedCar.setCarStatus(CarStatus.AVAILABLE);
@@ -72,7 +68,7 @@ public class DealService {
             carService.save(rentedCar);
             return receipt;
         }
-        throw new DealPaymentException("Deal already completed or you aren't the owner of the deal.");
+        throw new DealClosingException("Deal already completed or you aren't the owner of the deal.");
     }
 
     public void openDeal(String userEmail, long carId) {
@@ -87,7 +83,11 @@ public class DealService {
                     deal.setStartDate(LocalDateTime.now());
                 } // TODO get startDate and Description from form "Deal Starting"
                 save(deal);
+            } else {
+                throw new DealOpeningException("Car is not available");
             }
+        } else {
+            throw new DealOpeningException("Account is not verified");
         }
     }
 

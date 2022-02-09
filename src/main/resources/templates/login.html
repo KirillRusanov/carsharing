@@ -8,7 +8,7 @@
 <div th:replace="fragments/header :: header"/>
 
 <div class="container">
-    <div class="authorization-panel">
+    <div class="small-panel">
         <form th:action="@{/api/auth/signin}" th:object="${customer}" method="post">
             <h2 class="text-white">Authorization. Please Sign in</h2>
 
