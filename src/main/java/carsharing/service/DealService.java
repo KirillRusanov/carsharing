@@ -3,7 +3,8 @@ package carsharing.service;
 import carsharing.dao.model.*;
 import carsharing.dao.repository.DealRepository;
 import carsharing.service.documentService.pdf.receipt.DealReceiptGenerator;
-import carsharing.service.exception.DealPaymentException;
+import carsharing.service.exception.deal.DealClosingException;
+import carsharing.service.exception.deal.DealOpeningException;
 import carsharing.web.dto.DealDTO;
 import carsharing.web.dto.Receipt;
 import carsharing.web.mapper.DealMapper;
@@ -72,7 +73,7 @@ public class DealService {
                 e.printStackTrace();
             }
         }
-        throw new DealPaymentException("Deal already completed or you aren't the owner of the deal.");
+        throw new DealClosingException("Deal already completed or you aren't the owner of the deal.");
     }
 
     private void processDealForClosing(Deal deal, File receiptTempFile) throws IOException {
@@ -98,7 +99,11 @@ public class DealService {
                     deal.setStartDate(LocalDateTime.now());
                 } // TODO get startDate and Description from form "Deal Starting"
                 save(deal);
+            } else {
+                throw new DealOpeningException("Car is not available");
             }
+        } else {
+            throw new DealOpeningException("Account is not verified");
         }
     }
 

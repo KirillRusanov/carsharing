@@ -2,7 +2,7 @@ package carsharing.service;
 
 import carsharing.dao.model.Card;
 import carsharing.dao.model.Customer;
-import carsharing.service.exception.DealPaymentException;
+import carsharing.service.exception.deal.DealPaymentException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;

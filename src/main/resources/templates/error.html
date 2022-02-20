@@ -1,0 +1,19 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Carsharing Grodno</title>
+    <div th:replace="fragments/header :: header-css"/>
+</head>
+<body class="banner">
+<div th:replace="fragments/header :: header"/>
+<div class="container">
+    <div class="small-panel">
+        <div class="text-white">
+            <p class="h1">Oooops...</p>
+            <p class="h4" th:text="${message}"></p>
+            <a class="h3" href="javascript:history.back()">< Return back</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
