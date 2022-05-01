@@ -11,9 +11,9 @@ public interface SpecialistMapper {
 
     SpecialistDTO convertToDTO(Specialist entity);
 
-    Specialist convertToEntity(SpecialistDTO carDTO);
+    Specialist convertToEntity(SpecialistDTO specialistDTO);
 
-    List<SpecialistDTO> convertToDTO(List<Specialist> carsEntities);
+    List<SpecialistDTO> convertToDTO(List<Specialist> specialistEntities);
 
-    List<Specialist> convertToEntity(List<SpecialistDTO> carsDTOs);
+    List<Specialist> convertToEntity(List<SpecialistDTO> specialistDTOs);
 }

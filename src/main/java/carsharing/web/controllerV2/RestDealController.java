@@ -36,7 +36,7 @@ public class RestDealController {
         }
         if (carId != null) {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            CustomerDTO customerDTO = customerService.getCustomerDTOByEmail(userDetails.getUsername());
+            CustomerDTO customerDTO = customerService.getCustomerDtoByEmail(userDetails.getUsername());
             dealService.openDeal(userDetails.getUsername(), carId);
             model.setViewName("panel");
             model.addObject("deals", dealService.getUserDeals(customerDTO.getId()));
@@ -58,17 +58,14 @@ public class RestDealController {
             try {
                 // TODO PDF Reader and show receipts
                 dealService.closeDeal(userDetails.getUsername(), dealId);
-                CustomerDTO customerDTO = customerService.getCustomerDTOByEmail(userDetails.getUsername());
+                CustomerDTO customerDTO = customerService.getCustomerDtoByEmail(userDetails.getUsername());
                 model.setViewName("panel");
                 model.addObject("deals", dealService.getUserDeals(customerDTO.getId()));
                 model.addObject("customer", customerDTO);
                 return model;
             } catch (DealPaymentException ex) {
                 throw new ResponseStatusException(HttpStatus.PAYMENT_REQUIRED, ex.getMessage());
-            } catch (ClassNotFoundException e) {
-                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Type of rates does not exist");
             }
-
         }
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Incorrect data. Closing the deal was denied");
     }

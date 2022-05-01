@@ -13,7 +13,7 @@ public class CarDTO {
 
     private CarType type;
 
-    private CarStatus car_status;
+    private CarStatus carStatus;
 
     private String brand;
 

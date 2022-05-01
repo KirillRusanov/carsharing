@@ -4,6 +4,7 @@ import carsharing.service.CustomerService;
 import carsharing.service.SecurityService;
 import carsharing.web.dto.CustomerAuthenticationDTO;
 import carsharing.web.dto.CustomerDTO;
+import carsharing.web.dto.CustomerRegistrationDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -36,11 +37,9 @@ public class RestAuthController {
     @Autowired
     private SecurityService securityService;
 
-    // TODO решить вопрос с плохими кредами
-
     @PostMapping(value = "/signup")
-    public String signUp(@ModelAttribute("CustomerDTO") CustomerDTO customerDTO) {
-        if (customerService.getCustomerDTOByEmail(customerDTO.getEmail()) != null) {
+    public String signUp(@ModelAttribute("CustomerDTO") CustomerRegistrationDTO customerDTO) {
+        if (customerService.getCustomerDtoByEmail(customerDTO.getEmail()) != null) {
            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email is already taken.");
         }
         securityService.registerUser(customerDTO);

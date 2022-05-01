@@ -1,13 +1,13 @@
 package carsharing.dao.repository;
 
-import carsharing.dao.DAO;
 import carsharing.dao.model.Customer;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class CustomerRepository extends DAO<Customer> {
+public interface CustomerRepository extends CrudRepository<Customer, Long> {
 
-    public CustomerRepository() {
-        setEntityClass(Customer.class);
-    }
+    Customer findByEmail(String email);
+
+    Customer findByPhoneNumber(String phoneNumber);
 }

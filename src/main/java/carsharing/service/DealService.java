@@ -3,6 +3,7 @@ package carsharing.service;
 import carsharing.dao.model.*;
 import carsharing.dao.repository.DealRepository;
 import carsharing.service.documentService.pdf.receipt.DealReceiptGenerator;
+import carsharing.service.exception.ServerNotFoundException;
 import carsharing.service.exception.deal.DealClosingException;
 import carsharing.service.exception.deal.DealOpeningException;
 import carsharing.web.dto.DealDTO;
@@ -10,6 +11,7 @@ import carsharing.web.dto.Receipt;
 import carsharing.web.mapper.DealMapper;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Streamable;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -18,7 +20,7 @@ import java.nio.file.Files;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Service
 public class DealService {
@@ -37,26 +39,31 @@ public class DealService {
     private DealMapper dealMapper = Mappers.getMapper(DealMapper.class);
 
     public ArrayList<DealDTO> getAll() {
-        return (ArrayList<DealDTO>) dealMapper.convertToDTO(dealRepository.findAll());
+        return (ArrayList<DealDTO>) dealMapper.convertToDTO(Streamable.of(dealRepository.findAll()).toList());
     }
 
     public DealDTO findById(Long id) {
-        return dealMapper.convertToDTO(dealRepository.findById(id));
+        Optional<Deal> deal = dealRepository.findById(id);
+        if (deal.isPresent()) {
+            return dealMapper.convertToDTO(deal.get());
+        } else {
+            throw new ServerNotFoundException("Car with this ID not found!");
+        }
     }
 
     public void delete(Long id) {
-        dealRepository.delete(id);
+        dealRepository.deleteById(id);
     }
 
     public void save(DealDTO deal) {
-        dealRepository.saveOrUpdate(dealMapper.convertToEntity(deal));
+        dealRepository.save(dealMapper.convertToEntity(deal));
     }
 
     private void save(Deal deal) {
-        dealRepository.saveOrUpdate(deal);
+        dealRepository.save(deal);
     }
 
-    public Receipt closeDeal(String userEmail, long dealId) throws ClassNotFoundException {
+    public Receipt closeDeal(String userEmail, long dealId) {
         Deal deal = dealMapper.convertToEntity(findById(dealId));
         if (deal.getStatus().equals(DealStatus.ACTIVE) && deal.getCustomer().getId() == (customerService.getCustomerByEmail(userEmail).getId())) {
             try {
@@ -90,7 +97,7 @@ public class DealService {
     public void openDeal(String userEmail, long carId) {
         Customer customer = customerService.getCustomerByEmail(userEmail);
         if (customer.isVerified()) {
-            Car desiredCar = carService.findById(carId);
+            Car desiredCar = carService.getById(carId);
             if (desiredCar.getCarStatus().equals(CarStatus.AVAILABLE)) {
                 desiredCar.setCarStatus(CarStatus.BUSY);
                 carService.save(desiredCar);
@@ -108,13 +115,10 @@ public class DealService {
     }
 
     public List<DealDTO> getDealsByStatus(DealStatus dealStatus) {
-        return dealMapper.convertToDTO(dealRepository.getDealsByStatus(dealStatus));
+        return dealMapper.convertToDTO(dealRepository.findAllByStatus(dealStatus));
     }
 
     public List<DealDTO> getUserDeals(Long id) {
-        return getAll()
-                .stream()
-                .filter(e -> e.getCustomer().getId() == id)
-                .collect(Collectors.toList());
+        return dealMapper.convertToDTO(dealRepository.findAllByCustomer(customerService.getById(id)));
     }
 }
