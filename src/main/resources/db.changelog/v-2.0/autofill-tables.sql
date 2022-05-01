@@ -45,16 +45,46 @@ INSERT INTO `role` (`id`, `name`) values (3, "ROLE_ADMIN");
 GO
 
 INSERT INTO `car` (`id`, `car_type`, `car_status`, `brand`, `fuel`, `rate_id`, `customer_id`)
-values (1, "SPORT", "BUSY", "BMW i4", 120, 2, 2);
+values (1, "SPORT", "BUSY", "Hyundai Tucson", 120, 2, 2);
 GO
 INSERT INTO `car` (`id`, `car_type`, `car_status`, `brand`, `fuel`, `rate_id`, `customer_id`)
-values (2, "BASIC", "AVAILABLE", "BMW i1", 125, 2, 2);
+values (2, "BASIC", "AVAILABLE", "Volkswagen Lavida", 125, 2, 2);
 GO
 INSERT INTO `car` (`id`, `car_type`, `car_status`, `brand`, `fuel`, `rate_id`, `customer_id`)
-values (3, "BASIC", "AVAILABLE", "BMW i2", 70, 3, 2);
+values (3, "BASIC", "AVAILABLE", "Nissan Sylphy", 39, 3, 2);
 GO
 INSERT INTO `car` (`id`, `car_type`, `car_status`, `brand`, `fuel`, `rate_id`, `customer_id`)
-values (4, "BASIC", "BUSY", "BMW i3", 90, 1, 2);
+values (4, "BASIC", "BUSY", "Toyota Camry", 176, 1, 2);
+GO
+INSERT INTO `car` (`id`, `car_type`, `car_status`, `brand`, `fuel`, `rate_id`, `customer_id`)
+values (5, "BASIC", "AVAILABLE", "Toyota Camry", 10, 1, 2);
+GO
+INSERT INTO `car` (`id`, `car_type`, `car_status`, `brand`, `fuel`, `rate_id`, `customer_id`)
+values (6, "BASIC", "AVAILABLE", "Toyota Camry", 32, 1, 2);
+GO
+INSERT INTO `car` (`id`, `car_type`, `car_status`, `brand`, `fuel`, `rate_id`, `customer_id`)
+values (7, "BASIC", "AVAILABLE", "Volkswagen Tiguan", 11, 1, 2);
+GO
+INSERT INTO `car` (`id`, `car_type`, `car_status`, `brand`, `fuel`, `rate_id`, `customer_id`)
+values (8, "BASIC", "AVAILABLE", "Honda Civic", 62, 1, 2);
+GO
+INSERT INTO `car` (`id`, `car_type`, `car_status`, `brand`, `fuel`, `rate_id`, `customer_id`)
+values (9, "BASIC", "AVAILABLE", "Toyota RAV4", 67, 1, 2);
+GO
+INSERT INTO `car` (`id`, `car_type`, `car_status`, `brand`, `fuel`, `rate_id`, `customer_id`)
+values (10, "BASIC", "AVAILABLE", "Volkswagen Polo", 24, 1, 2);
+GO
+INSERT INTO `car` (`id`, `car_type`, `car_status`, `brand`, `fuel`, `rate_id`, `customer_id`)
+values (11, "BASIC", "AVAILABLE", "Volkswagen Polo", 78, 1, 2);
+GO
+INSERT INTO `car` (`id`, `car_type`, `car_status`, `brand`, `fuel`, `rate_id`, `customer_id`)
+values (12, "BASIC", "AVAILABLE", "Volkswagen Polo", 67, 1, 2);
+GO
+INSERT INTO `car` (`id`, `car_type`, `car_status`, `brand`, `fuel`, `rate_id`, `customer_id`)
+values (13, "SPORT", "AVAILABLE", "Porsche 918 Spyder", 45, 1, 2);
+GO
+INSERT INTO `car` (`id`, `car_type`, `car_status`, `brand`, `fuel`, `rate_id`, `customer_id`)
+values (14, "SPORT", "AVAILABLE", "Ferrari 599XX", 34, 1, 2);
 GO
 
 INSERT INTO `card` (`id`, `number`, `code`, `term`, `customer_id`)
