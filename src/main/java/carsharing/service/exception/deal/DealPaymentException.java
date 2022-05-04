@@ -1,7 +1,9 @@
 package carsharing.service.exception.deal;
 
 
-public class DealPaymentException extends RuntimeException {
+import carsharing.service.exception.CarsharingException;
+
+public class DealPaymentException extends CarsharingException {
 
     public DealPaymentException(String msg) {
         super(msg);

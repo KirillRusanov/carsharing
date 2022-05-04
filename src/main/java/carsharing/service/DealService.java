@@ -5,11 +5,14 @@ import carsharing.dao.repository.DealRepository;
 import carsharing.service.documentService.pdf.receipt.DealReceiptGenerator;
 import carsharing.service.exception.deal.DealClosingException;
 import carsharing.service.exception.deal.DealOpeningException;
+import carsharing.service.mail.MailService;
+import carsharing.service.mail.MessageInfo;
 import carsharing.web.dto.DealDTO;
 import carsharing.web.dto.Receipt;
 import carsharing.web.mapper.DealMapper;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -33,6 +36,9 @@ public class DealService {
     private DealManager dealManager;
     @Autowired
     private DealReceiptGenerator receiptGenerator;
+    @Autowired
+    @Qualifier("actionService")
+    private MailService mailService;
 
     private DealMapper dealMapper = Mappers.getMapper(DealMapper.class);
 
@@ -56,7 +62,7 @@ public class DealService {
         dealRepository.saveOrUpdate(deal);
     }
 
-    public Receipt closeDeal(String userEmail, long dealId) throws ClassNotFoundException {
+    public DealDTO closeDeal(String userEmail, long dealId) {
         Deal deal = dealMapper.convertToEntity(findById(dealId));
         if (deal.getStatus().equals(DealStatus.ACTIVE) && deal.getCustomer().getId() == (customerService.getCustomerByEmail(userEmail).getId())) {
             try {
@@ -68,7 +74,7 @@ public class DealService {
                 File receiptTempFile = receiptGenerator.createReceipt(receipt);
                 processDealForClosing(deal, receiptTempFile);
                 save(deal);
-                return receipt;
+                return dealMapper.convertToDTO(deal);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -109,6 +115,39 @@ public class DealService {
 
     public List<DealDTO> getDealsByStatus(DealStatus dealStatus) {
         return dealMapper.convertToDTO(dealRepository.getDealsByStatus(dealStatus));
+    }
+
+    private byte[] getReceiptByDealId(Long id) {
+        return dealRepository.findById(id).getReceipt();
+    }
+
+    public void sendReceiptByEmail(String email, DealDTO deal) {
+        try {
+            MessageInfo messageInfo = configureMessageInfoForReceiptMailer(email, deal);
+            mailService.sendMessage(messageInfo);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public MessageInfo configureMessageInfoForReceiptMailer(String email, DealDTO deal) throws IOException {
+        File tempFile = File.createTempFile("receipt", ".pdf");
+        Files.write(tempFile.toPath(), getReceiptByDealId(deal.getId()));
+        return MessageInfo.builder()
+                .emailTo(email)
+
+                .nameFrom("Deal Service")
+                .subject("Receipt of deal № " + deal.getId())
+                .attachments(List.of(tempFile))
+                .messageHtml(getMessageForReceiptMailer())
+                .build();
+    }
+
+    private String getMessageForReceiptMailer() {
+        return "<h3>Dear client. Thank you for using our service!" +
+                "<br>Your receipt for the transaction in PDF format is attached to the letter.</h3>" +
+                "<br>-----------------------------------------------" +
+                "<br><i color='black'>Please do not reply to this message, it was generated automatically.</i>";
     }
 
     public List<DealDTO> getUserDeals(Long id) {
