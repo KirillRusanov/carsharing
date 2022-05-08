@@ -32,7 +32,7 @@ public class DealController {
             model.setViewName("login");
             return model;
         }
-        CustomerDTO customerDTO = customerService.getCustomerDTOByEmail(userDetails.getUsername());
+        CustomerDTO customerDTO = customerService.getCustomerDtoByEmail(userDetails.getUsername());
         dealService.openDeal(userDetails.getUsername(), carId);
         model.setViewName("redirect:/m-panel");
         model.addObject("deals", dealService.getUserDeals(customerDTO.getId()));
@@ -57,7 +57,7 @@ public class DealController {
     @PostMapping(value = "/sendReceipt")
     public ModelAndView sendReceipt(ModelAndView modelAndView,
             @AuthenticationPrincipal UserDetails userDetails, @RequestParam("dealId") Long dealId, @RequestParam("email") String email) {
-        DealDTO deal = dealService.findById(dealId);
+        DealDTO deal = dealService.getById(dealId);
         if (isPersonalDeal(userDetails.getUsername(), deal) && deal.getStatus().equals(DealStatus.FINISHED)) {
             dealService.sendReceiptByEmail(email, deal);
             modelAndView.setViewName("receiptInfo");

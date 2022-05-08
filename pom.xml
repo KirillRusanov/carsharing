@@ -50,6 +50,10 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
         <!-- Additional for thymeleaf (Control Authorization) -->
@@ -107,8 +111,6 @@
             <artifactId>itextpdf</artifactId>
             <version>5.5.13</version>
         </dependency>
-<<<<<<< pom.xml
-
 
         <!-- Useful Tool  -->
         <dependency>
@@ -116,12 +118,6 @@
             <artifactId>lombok</artifactId>
             <version>1.18.16</version>
             <scope>provided</scope>
-        </dependency>    
-        <!--  Mail libs    -->
-        <dependency>
-            <groupId>com.sun.mail</groupId>
-            <artifactId>javax.mail</artifactId>
-            <version>1.6.2</version>
         </dependency>
     </dependencies>
 

@@ -13,6 +13,7 @@ import carsharing.web.dto.Receipt;
 import carsharing.web.mapper.DealMapper;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.util.Streamable;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -67,7 +69,7 @@ public class DealService {
     }
 
     public DealDTO closeDeal(String userEmail, long dealId) {
-        Deal deal = dealMapper.convertToEntity(findById(dealId));
+        Deal deal = findById(dealId);
         if (deal.getStatus().equals(DealStatus.ACTIVE) && deal.getCustomer().getId() == (customerService.getCustomerByEmail(userEmail).getId())) {
             try {
                 Car rentedCar = deal.getCar();
@@ -122,7 +124,7 @@ public class DealService {
     }
 
     private byte[] getReceiptByDealId(Long id) {
-        return dealRepository.findById(id).getReceipt();
+        return findById(id).getReceipt();
     }
 
     public void sendReceiptByEmail(String email, DealDTO deal) {
@@ -142,7 +144,7 @@ public class DealService {
 
                 .nameFrom("Deal Service")
                 .subject("Receipt of deal № " + deal.getId())
-                .attachments(List.of(tempFile))
+                .attachments(Collections.singletonList(tempFile))
                 .messageHtml(getMessageForReceiptMailer())
                 .build();
     }
