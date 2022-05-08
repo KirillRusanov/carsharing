@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Streamable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,13 +25,12 @@ public class SpecialistService {
         return specialistMapper.convertToDTO(Streamable.of(specialistRepository.findAll()).toList());
     }
 
-    public SpecialistDTO findById(Long id) {
-        Optional<Specialist> specialist = specialistRepository.findById(id);
-        if (specialist.isPresent()) {
-            return specialistMapper.convertToDTO(specialist.get());
-        } else {
-            throw new ServerNotFoundException("Specialist with this ID not found!");
-        }
+    protected Specialist findById(Long id) {
+        return specialistRepository.findById(id).orElseThrow(() -> new ServerNotFoundException("Specialist with this ID not found!"));
+    }
+
+    public SpecialistDTO getById(Long id) {
+        return specialistMapper.convertToDTO(findById(id));
     }
 
     public void delete(Long id) {

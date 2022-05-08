@@ -10,9 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Streamable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class RateService {
@@ -26,13 +24,12 @@ public class RateService {
         return rateMapper.convertToDTO(Streamable.of(rateRepository.findAll()).toList());
     }
 
-    public RateDTO findById(Long id) {
-        Optional<Rate> rate = rateRepository.findById(id);
-        if (rate.isPresent()) {
-            return rateMapper.convertToDTO(rate.get());
-        } else {
-            throw new ServerNotFoundException("Rate doesn't exists!");
-        }
+    protected Rate findById(Long id) {
+        return rateRepository.findById(id).orElseThrow(() -> new ServerNotFoundException("Rate doesn't exists!"));
+    }
+
+    public RateDTO getById(Long id) {
+        return rateMapper.convertToDTO(findById(id));
     }
 
     public void delete(Long id) {

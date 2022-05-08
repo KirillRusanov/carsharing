@@ -28,12 +28,7 @@ public class CarService {
     }
 
     protected Car getById(Long id) {
-        Optional<Car> car = carRepository.findById(id);
-        if (car.isPresent()) {
-            return car.get();
-        } else {
-            throw new ServerNotFoundException("Car with this ID not found!");
-        }
+        return carRepository.findById(id).orElseThrow(() -> new ServerNotFoundException("Car with this ID not found!"));
     }
 
     public CarDTO findById(Long id) {

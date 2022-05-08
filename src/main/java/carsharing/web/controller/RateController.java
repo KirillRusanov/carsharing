@@ -26,6 +26,6 @@ public class RateController {
 
     @GetMapping(value = "/{id}")
     public RateDTO getRateById(@PathVariable("id") Long id) {
-        return rateService.findById(id);
+        return rateService.getById(id);
     }
 }

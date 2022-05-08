@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -22,12 +21,7 @@ public class RoleService {
     }
 
     public Role findById(Long id) {
-        Optional<Role> role = roleRepository.findById(id);
-        if (role.isPresent()) {
-            return role.get();
-        } else {
-            throw new ServerNotFoundException("This role does not exist!");
-        }
+        return roleRepository.findById(id).orElseThrow(() -> new ServerNotFoundException("This role does not exist!"));
     }
 
     public Set<Role> getDefaultUserRoles() {

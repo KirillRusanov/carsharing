@@ -20,10 +20,11 @@ public class RestCardController {
 
     @GetMapping(value = "/{id}/delete")
     public void deleteCard(@PathVariable("id") Long id, @AuthenticationPrincipal Customer customerDetails) {
-        if (customerDetails.getCards().contains(cardService.findById(id))) {
-            cardService.delete(id);
-        }
-        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Denied, not enough rights");
+        // TODO переделать систему удаления
+//        if (customerDetails.getCards().contains(cardService.getById(id))) {
+//            cardService.delete(id);
+//        }
+//        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Denied, not enough rights");
     }
 
     @PostMapping(value = "/add", produces = "application/json", consumes="application/json")

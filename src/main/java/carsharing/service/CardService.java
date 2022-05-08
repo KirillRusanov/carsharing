@@ -19,13 +19,12 @@ public class CardService {
 
     private CardMapper cardMapper = Mappers.getMapper(CardMapper.class);
 
-    public CardDTO findById(Long id) {
-        Optional<Card> customer = cardRepository.findById(id);
-        if (customer.isPresent()) {
-            return cardMapper.convertToDTO(customer.get());
-        } else {
-            throw new ServerNotFoundException("Card with this ID not found!");
-        }
+    protected Card findById(Long id) {
+        return cardRepository.findById(id).orElseThrow(() -> new ServerNotFoundException("Card with this ID not found!"));
+    }
+
+    public CardDTO getById(Long id) {
+        return cardMapper.convertToDTO(findById(id));
     }
 
     public void delete(Long id) {

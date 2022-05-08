@@ -31,12 +31,7 @@ public class CustomerService implements UserDetailsService {
 
 
     protected Customer getById(Long id) {
-        Optional<Customer> customer = customerRepository.findById(id);
-        if (customer.isPresent()) {
-            return customer.get();
-        } else {
-            throw new ServerNotFoundException("Customer with this ID not found!");
-        }
+        return customerRepository.findById(id).orElseThrow(() -> new ServerNotFoundException("Customer with this ID not found!"));
     }
 
     public CustomerDTO findById(Long id) {

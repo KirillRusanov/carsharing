@@ -20,7 +20,6 @@ import java.nio.file.Files;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class DealService {
@@ -42,13 +41,12 @@ public class DealService {
         return (ArrayList<DealDTO>) dealMapper.convertToDTO(Streamable.of(dealRepository.findAll()).toList());
     }
 
-    public DealDTO findById(Long id) {
-        Optional<Deal> deal = dealRepository.findById(id);
-        if (deal.isPresent()) {
-            return dealMapper.convertToDTO(deal.get());
-        } else {
-            throw new ServerNotFoundException("Car with this ID not found!");
-        }
+    protected Deal findById(Long id) {
+        return dealRepository.findById(id).orElseThrow(() -> new ServerNotFoundException("Car with this ID not found!"));
+    }
+
+    public DealDTO getById(Long id) {
+        return dealMapper.convertToDTO(findById(id));
     }
 
     public void delete(Long id) {
@@ -64,7 +62,7 @@ public class DealService {
     }
 
     public Receipt closeDeal(String userEmail, long dealId) {
-        Deal deal = dealMapper.convertToEntity(findById(dealId));
+        Deal deal = findById(dealId);
         if (deal.getStatus().equals(DealStatus.ACTIVE) && deal.getCustomer().getId() == (customerService.getCustomerByEmail(userEmail).getId())) {
             try {
                 Car rentedCar = deal.getCar();
