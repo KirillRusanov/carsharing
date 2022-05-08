@@ -2,13 +2,16 @@ package carsharing.service;
 
 import carsharing.dao.model.Specialist;
 import carsharing.dao.repository.SpecialistRepository;
+import carsharing.service.exception.ServerNotFoundException;
 import carsharing.web.dto.SpecialistDTO;
 import carsharing.web.mapper.SpecialistMapper;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Streamable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SpecialistService {
@@ -18,19 +21,23 @@ public class SpecialistService {
 
     private SpecialistMapper specialistMapper = Mappers.getMapper(SpecialistMapper.class);
 
-    public ArrayList<SpecialistDTO> getAll() {
-        return (ArrayList<SpecialistDTO>) specialistMapper.convertToDTO(specialistRepository.findAll());
+    public List<SpecialistDTO> getAll() {
+        return specialistMapper.convertToDTO(Streamable.of(specialistRepository.findAll()).toList());
     }
 
-    public SpecialistDTO findById(Long id) {
-        return specialistMapper.convertToDTO(specialistRepository.findById(id));
+    protected Specialist findById(Long id) {
+        return specialistRepository.findById(id).orElseThrow(() -> new ServerNotFoundException("Specialist with this ID not found!"));
+    }
+
+    public SpecialistDTO getById(Long id) {
+        return specialistMapper.convertToDTO(findById(id));
     }
 
     public void delete(Long id) {
-        specialistRepository.delete(id);
+        specialistRepository.deleteById(id);
     }
 
     public void save(Specialist entity) {
-        specialistRepository.saveOrUpdate(entity);
+        specialistRepository.save(entity);
     }
 }

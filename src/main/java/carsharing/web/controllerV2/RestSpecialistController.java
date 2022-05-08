@@ -40,7 +40,7 @@ public class RestSpecialistController {
 
     @GetMapping(value = "/deals/{id}")
     public DealDTO getDealById(@PathVariable("id") Long id) {
-        return dealService.findById(id);
+        return dealService.getById(id);
     }
 
     @GetMapping(value = "/deals")

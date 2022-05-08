@@ -23,7 +23,7 @@ public class RestCarController {
 
     @GetMapping(value = "/{id}")
     public CarDTO getCarById(@PathVariable("id") Long id) {
-        return carService.findByIdForView(id);
+        return carService.findById(id);
     }
 
     @GetMapping(value = "/available")
@@ -35,38 +35,39 @@ public class RestCarController {
 
     @GetMapping(value = "/{id}/control-panel")
     public ConditionCar getAllIndicators(@PathVariable("id") Long id) {
-        return remoteCarControlService.getAllIndicators(carService.findById(id));
+//        return remoteCarControlService.getAllIndicators(carService.findById(id));
+        return ConditionCar.builder().speed(20).build();
     }
 
     @GetMapping(value = "/{id}/control-panel/open")
     public void openDoors(@PathVariable("id") Long id) {
-        remoteCarControlService.openDoors(carService.findById(id));
+//        remoteCarControlService.openDoors(carService.findById(id));
     }
 
     @GetMapping(value = "/{id}/control-panel/close")
     public void closeDoors(@PathVariable("id") Long id) {
-        remoteCarControlService.closeDoors(carService.findById(id));
+//        remoteCarControlService.closeDoors(carService.findById(id));
     }
 
     @GetMapping(value = "/{id}/control-panel/turnOn")
     public void turnOnCar(@PathVariable("id") Long id) {
-        remoteCarControlService.turnOnEngine(carService.findById(id));
+//        remoteCarControlService.turnOnEngine(carService.findById(id));
     }
 
     @GetMapping(value = "/{id}/control-panel/turnOf")
     public void turnOfCar(@PathVariable("id") Long id) {
-        remoteCarControlService.turnOfEngine(carService.findById(id));
+//        remoteCarControlService.turnOfEngine(carService.findById(id));
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping(value = "/{id}/control-panel/lock")
     public void lockManualControl(@PathVariable("id") Long id) {
-        remoteCarControlService.lockManualControl(carService.findById(id));
+//        remoteCarControlService.lockManualControl(carService.findById(id));
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping(value = "/{id}/control-panel/unlock")
     public void unlockManualControl(@PathVariable("id") Long id) {
-        remoteCarControlService.unlockManualControl(carService.findById(id));
+//        remoteCarControlService.unlockManualControl(carService.findById(id));
     }
 }

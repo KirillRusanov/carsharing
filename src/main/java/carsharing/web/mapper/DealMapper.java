@@ -10,9 +10,9 @@ import java.util.List;
 public interface DealMapper {
     DealDTO convertToDTO(Deal entity);
 
-    Deal convertToEntity(DealDTO carDTO);
+    Deal convertToEntity(DealDTO dealDTO);
 
-    List<DealDTO> convertToDTO(List<Deal> carsEntities);
+    List<DealDTO> convertToDTO(List<Deal> dealEntities);
 
-    List<Deal> convertToEntity(List<DealDTO> carsDTOs);
+    List<Deal> convertToEntity(List<DealDTO> dealDTOs);
 }

@@ -11,10 +11,10 @@ public interface RateMapper {
 
     RateDTO convertToDTO(Rate entity);
 
-    Rate convertToEntity(RateDTO carDTO);
+    Rate convertToEntity(RateDTO rateDTO);
 
-    List<RateDTO> convertToDTO(List<Rate> carsEntities);
+    List<RateDTO> convertToDTO(List<Rate> rateEntities);
 
-    List<Rate> convertToEntity(List<RateDTO> carsDTOs);
+    List<Rate> convertToEntity(List<RateDTO> rateDTOs);
 
 }

@@ -30,7 +30,7 @@ public class RestDealController {
     public ModelAndView startDeal(Authentication authentication, ModelAndView model, @RequestParam("carId") Long carId) {
         if (carId != null) {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            CustomerDTO customerDTO = customerService.getCustomerDTOByEmail(userDetails.getUsername());
+            CustomerDTO customerDTO = customerService.getCustomerDtoByEmail(userDetails.getUsername());
             dealService.openDeal(userDetails.getUsername(), carId);
             model.setViewName("panel");
             model.addObject("deals", dealService.getUserDeals(customerDTO.getId()));
@@ -47,7 +47,7 @@ public class RestDealController {
             try {
                 // TODO PDF Reader and show receipts
                 dealService.closeDeal(userDetails.getUsername(), dealId);
-                CustomerDTO customerDTO = customerService.getCustomerDTOByEmail(userDetails.getUsername());
+                CustomerDTO customerDTO = customerService.getCustomerDtoByEmail(userDetails.getUsername());
                 model.setViewName("panel");
                 model.addObject("deals", dealService.getUserDeals(customerDTO.getId()));
                 model.addObject("customer", customerDTO);

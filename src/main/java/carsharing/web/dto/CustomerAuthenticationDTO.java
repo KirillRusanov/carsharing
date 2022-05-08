@@ -1,10 +1,12 @@
 package carsharing.web.dto;
 
-import lombok.Data;
+import lombok.*;
 import org.springframework.stereotype.Component;
 
-@Data
-@Component
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class CustomerAuthenticationDTO extends CustomerDTO {
 
     private String email;

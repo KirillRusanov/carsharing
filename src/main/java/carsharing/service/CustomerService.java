@@ -2,16 +2,19 @@ package carsharing.service;
 
 import carsharing.dao.model.Customer;
 import carsharing.dao.repository.CustomerRepository;
+import carsharing.service.exception.ServerNotFoundException;
 import carsharing.web.dto.CustomerDTO;
 import carsharing.web.mapper.CustomerMapper;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Streamable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CustomerService implements UserDetailsService {
@@ -22,43 +25,52 @@ public class CustomerService implements UserDetailsService {
     private CustomerMapper customerMapper = Mappers.getMapper(CustomerMapper.class);
 
 
-    public ArrayList<CustomerDTO> getAll() {
-        return (ArrayList<CustomerDTO>) customerMapper.convertToDTO(customerRepository.findAll());
+    public List<CustomerDTO> getAll() {
+        return customerMapper.convertToDTO(Streamable.of(customerRepository.findAll()).toList());
+    }
+
+
+    protected Customer getById(Long id) {
+        return customerRepository.findById(id).orElseThrow(() -> new ServerNotFoundException("Customer with this ID not found!"));
     }
 
     public CustomerDTO findById(Long id) {
-        return customerMapper.convertToDTO(customerRepository.findById(id));
+        return customerMapper.convertToDTO(getById(id));
     }
 
-    public boolean delete(Long id) {
-        if (customerRepository.findById(id) != null) {
-            customerRepository.delete(id);
-            return true;
+    public void delete(Long id) {
+        if (customerRepository.findById(id).isPresent()) {
+            customerRepository.deleteById(id);
+        } else {
+            throw new ServerNotFoundException("Failed to delete customer. Customer with this ID not found!");
         }
-        return false;
     }
 
     public void save(CustomerDTO customer) {
-        customerRepository.saveOrUpdate(customerMapper.convertToEntity(customer));
+        customerRepository.save(customerMapper.convertToEntity(customer));
     }
 
     protected void save(Customer customer) {
-        customerRepository.saveOrUpdate(customer);
+        customerRepository.save(customer);
     }
 
 
-    protected Customer getCustomerByEmail(String email) {
-        return customerRepository.getCustomerByEmail(email);
+    Customer getCustomerByEmail(String email) {
+        return customerRepository.findByEmail(email);
     }
 
-    public CustomerDTO getCustomerDTOByEmail(String email) {
-        return customerMapper.convertToDTO(customerRepository.getCustomerByEmail(email));
+    public CustomerDTO getCustomerDtoByEmail(String email) {
+        return customerMapper.convertToDTO(customerRepository.findByEmail(email));
+    }
+
+    public CustomerDTO getCustomerDtoByPhone(String phoneNumber) {
+        return customerMapper.convertToDTO(customerRepository.findByPhoneNumber(phoneNumber));
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Customer customer = getCustomerByEmail(username);
-        if(customer == null) throw new UsernameNotFoundException("Customer not found");
+        if(customer == null) throw new ServerNotFoundException("Customer not found!");
         return customer;
     }
 }

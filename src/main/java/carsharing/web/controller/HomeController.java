@@ -32,7 +32,7 @@ public class HomeController {
             return "login";
         }
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        CustomerDTO customerDTO = customerService.getCustomerDTOByEmail(userDetails.getUsername());
+        CustomerDTO customerDTO = customerService.getCustomerDtoByEmail(userDetails.getUsername());
         model.addAttribute("deals", dealService.getUserDeals(customerDTO.getId()));
         model.addAttribute("customer", customerDTO);
         return "panel";

@@ -35,6 +35,6 @@ public class CustomerController {
 
     @GetMapping(value = "/specialist/{id}")
     public SpecialistDTO getSpecialistById(@PathVariable("id") Long id) {
-        return specialistService.findById(id);
+        return specialistService.getById(id);
     }
 }

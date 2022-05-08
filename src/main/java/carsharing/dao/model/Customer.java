@@ -40,7 +40,7 @@ public class Customer extends EntityDetails implements UserDetails {
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "balance", nullable = false)
+    @Column(name = "balance")
     private BigDecimal balance;
 
     @JsonIgnore

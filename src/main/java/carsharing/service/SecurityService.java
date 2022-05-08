@@ -4,6 +4,7 @@ import carsharing.dao.model.Customer;
 import carsharing.service.security.JwtTokenProvider;
 import carsharing.web.dto.CustomerAuthenticationDTO;
 import carsharing.web.dto.CustomerDTO;
+import carsharing.web.dto.CustomerRegistrationDTO;
 import carsharing.web.mapper.CustomerMapper;
 import org.mapstruct.factory.Mappers;
 import org.slf4j.Logger;
@@ -14,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.Collections;
 
 @Service
@@ -32,10 +34,11 @@ public class SecurityService {
 
     private static final Logger LOG = LoggerFactory.getLogger(SecurityService.class);
 
-    public void registerUser(CustomerDTO customerDTO) {
+    public void registerUser(CustomerRegistrationDTO customerDTO) {
         Customer customer = customerMapper.convertToEntity(customerDTO);
-        customer.setRoles(Collections.singleton(roleService.findById(1L)));
+        customer.setRoles(roleService.getDefaultUserRoles());
         customer.setPassword(passwordEncoder.encode(customerDTO.getPassword()));
+        customer.setBalance(BigDecimal.ZERO);
         customerService.save(customer);
         LOG.info("Customer " + customerDTO.getEmail() + " registered");
     }
