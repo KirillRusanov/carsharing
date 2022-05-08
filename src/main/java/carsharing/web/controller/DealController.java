@@ -1,25 +1,23 @@
 package carsharing.web.controller;
 
+import carsharing.dao.model.DealStatus;
 import carsharing.service.CustomerService;
 import carsharing.service.DealService;
-import carsharing.service.exception.deal.DealPaymentException;
+import carsharing.service.exception.CarsharingException;
 import carsharing.web.dto.CustomerAuthenticationDTO;
 import carsharing.web.dto.CustomerDTO;
+import carsharing.web.dto.DealDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("api/deal")
-@PreAuthorize("hasAnyRole('CUSTOMER', 'SPECIALIST', 'ADMIN')")
 public class DealController {
 
     @Autowired
@@ -28,45 +26,49 @@ public class DealController {
     private CustomerService customerService;
 
     @PostMapping(value = "/start")
-    public ModelAndView startDeal(Authentication authentication, ModelAndView model, @RequestParam("carId") Long carId) {
-        if (authentication == null) {
+    public ModelAndView startDeal(@AuthenticationPrincipal UserDetails userDetails, ModelAndView model, @RequestParam("carId") Long carId) {
+        if (userDetails == null) {
             model.addObject("customer", new CustomerAuthenticationDTO());
             model.setViewName("login");
             return model;
         }
-        if (carId != null) {
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            CustomerDTO customerDTO = customerService.getCustomerDtoByEmail(userDetails.getUsername());
-            dealService.openDeal(userDetails.getUsername(), carId);
-            model.setViewName("panel");
-            model.addObject("deals", dealService.getUserDeals(customerDTO.getId()));
-            model.addObject("customer", customerDTO);
-            return model;
-        }
-        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Incorrect data. Opening the deal was denied");
+        CustomerDTO customerDTO = customerService.getCustomerDTOByEmail(userDetails.getUsername());
+        dealService.openDeal(userDetails.getUsername(), carId);
+        model.setViewName("redirect:/m-panel");
+        model.addObject("deals", dealService.getUserDeals(customerDTO.getId()));
+        model.addObject("customer", customerDTO);
+        return model;
     }
 
     @PostMapping(value = "/close")
-    public ModelAndView closeDeal(Authentication authentication, ModelAndView model, @RequestParam("dealId") Long dealId) {
-        if (authentication == null) {
+    public ModelAndView closeDeal(@AuthenticationPrincipal UserDetails userDetails, ModelAndView model, @RequestParam("dealId") Long dealId) {
+        if (userDetails == null) {
             model.addObject("customer", new CustomerAuthenticationDTO());
             model.setViewName("login");
             return model;
         }
-        if (dealId != null) {
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            try {
-                // TODO PDF Reader and show receipts
-                dealService.closeDeal(userDetails.getUsername(), dealId);
-                CustomerDTO customerDTO = customerService.getCustomerDtoByEmail(userDetails.getUsername());
-                model.setViewName("panel");
-                model.addObject("deals", dealService.getUserDeals(customerDTO.getId()));
-                model.addObject("customer", customerDTO);
-                return model;
-            } catch (DealPaymentException ex) {
-                throw new ResponseStatusException(HttpStatus.PAYMENT_REQUIRED, ex.getMessage());
-            }
+        // TODO PDF Reader and show receipts
+        DealDTO deal = dealService.closeDeal(userDetails.getUsername(), dealId);
+        model.setViewName("receiptInfo");
+        model.addObject("deal", deal);
+        return model;
+    }
+
+    @PostMapping(value = "/sendReceipt")
+    public ModelAndView sendReceipt(ModelAndView modelAndView,
+            @AuthenticationPrincipal UserDetails userDetails, @RequestParam("dealId") Long dealId, @RequestParam("email") String email) {
+        DealDTO deal = dealService.findById(dealId);
+        if (isPersonalDeal(userDetails.getUsername(), deal) && deal.getStatus().equals(DealStatus.FINISHED)) {
+            dealService.sendReceiptByEmail(email, deal);
+            modelAndView.setViewName("receiptInfo");
+            modelAndView.addObject("deal", deal);
+        } else {
+            throw new CarsharingException("TEST");
         }
-        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Incorrect data. Closing the deal was denied");
+        return modelAndView;
+    }
+
+    private boolean isPersonalDeal(String username, DealDTO deal) {
+        return deal.getCustomer().getUsername().equals(username);
     }
 }

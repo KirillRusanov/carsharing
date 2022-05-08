@@ -3,7 +3,6 @@ package carsharing.web.controllerV2;
 import carsharing.service.CustomerService;
 import carsharing.service.DealService;
 import carsharing.service.exception.deal.DealPaymentException;
-import carsharing.web.dto.CustomerAuthenticationDTO;
 import carsharing.web.dto.CustomerDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,11 +28,6 @@ public class RestDealController {
 
     @PostMapping(value = "/start")
     public ModelAndView startDeal(Authentication authentication, ModelAndView model, @RequestParam("carId") Long carId) {
-        if (authentication == null) {
-            model.addObject("customer", new CustomerAuthenticationDTO());
-            model.setViewName("login");
-            return model;
-        }
         if (carId != null) {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
             CustomerDTO customerDTO = customerService.getCustomerDtoByEmail(userDetails.getUsername());
@@ -48,11 +42,6 @@ public class RestDealController {
 
     @PostMapping(value = "/close")
     public ModelAndView closeDeal(Authentication authentication, ModelAndView model, @RequestParam("dealId") Long dealId) {
-        if (authentication == null) {
-            model.addObject("customer", new CustomerAuthenticationDTO());
-            model.setViewName("login");
-            return model;
-        }
         if (dealId != null) {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
             try {

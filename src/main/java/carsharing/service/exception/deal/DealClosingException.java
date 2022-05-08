@@ -1,6 +1,8 @@
 package carsharing.service.exception.deal;
 
-public class DealClosingException extends RuntimeException {
+import carsharing.service.exception.CarsharingException;
+
+public class DealClosingException extends CarsharingException {
 
     public DealClosingException() {
         super();

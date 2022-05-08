@@ -11,15 +11,11 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.access.AccessDeniedHandler;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
-    @Autowired
-    private AccessDeniedHandler accessDeniedHandler;
 
     @Autowired
     private JwtConfigurer jwtConfigurer;
@@ -46,11 +42,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/css/**").permitAll()
                 .antMatchers("/image/**").permitAll()
                 .antMatchers("/js/**").permitAll()
-                .antMatchers("/", "/index", "/about", "/m-panel", "/partnership").permitAll()
-                .antMatchers("/api/auth/**", "/api/cars/available").permitAll()
+                .antMatchers("/", "/index", "/about", "/m-panel").permitAll()
+                .antMatchers("/api/**", "/api/cars/available").permitAll()
                 .anyRequest().authenticated()
-                .and().apply(jwtConfigurer)
-                .and().exceptionHandling().accessDeniedHandler(accessDeniedHandler);
-
+                .and().apply(jwtConfigurer);
     }
 }

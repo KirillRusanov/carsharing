@@ -107,6 +107,7 @@
             <artifactId>itextpdf</artifactId>
             <version>5.5.13</version>
         </dependency>
+<<<<<<< pom.xml
 
 
         <!-- Useful Tool  -->
@@ -115,6 +116,12 @@
             <artifactId>lombok</artifactId>
             <version>1.18.16</version>
             <scope>provided</scope>
+        </dependency>    
+        <!--  Mail libs    -->
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+            <version>1.6.2</version>
         </dependency>
     </dependencies>
 
