@@ -28,7 +28,7 @@
 
         for (var i = 0; i < cars.length; i++) {
             var link = "/carsharing/api/deal/start?carId=" + cars[i].id;
-            var carMark = new ymaps.Placemark([53.66490864434912 + i / 100, 23.830245072291707 + i / 100], {
+            var carMark = new ymaps.Placemark([cars[i].posX, cars[i].posY], {
                 balloonContentHeader: 'Auto: ' + cars[i].brand,
                 balloonContentBody: '<img src="/carsharing/image/background-car.png" height="140" width="320" alt="CAR"> <br/> ' +
                     '<b>Car type: </b>' + cars[i].type + "<br>" +

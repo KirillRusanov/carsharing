@@ -25,3 +25,7 @@ GO
 ALTER TABLE `deal` ADD receipt BLOB;
 GO
 ALTER TABLE `customer` ADD `balance` NUMERIC(15, 2) DEFAULT 0
+GO
+ALTER TABLE `car` ADD `posX` DECIMAL(11, 8)
+GO
+ALTER TABLE `car` ADD `posY` DECIMAL(11, 8)

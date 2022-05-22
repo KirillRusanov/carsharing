@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
@@ -43,4 +44,10 @@ public class Car extends EntityDetails {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "car")
     private List<Deal> deals;
+
+    @Column(name = "posX")
+    private BigDecimal posX;
+    @Column(name = "posY")
+    private BigDecimal posY;
+
 }

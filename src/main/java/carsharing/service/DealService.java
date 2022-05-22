@@ -19,11 +19,13 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class DealService {
@@ -96,7 +98,15 @@ public class DealService {
     }
 
     private void processCarForClosingDeal(Car rentedCar) {
+        double randomPos = simulateMoving(-0.01000, 0.01000);
+        rentedCar.setPosX(randomPos > 0 ? rentedCar.getPosX().add(new BigDecimal(randomPos)) : rentedCar.getPosX().subtract(new BigDecimal(randomPos)));
+        rentedCar.setPosY(randomPos > 0 ? rentedCar.getPosY().subtract(new BigDecimal(randomPos)) : rentedCar.getPosY().add(new BigDecimal(randomPos)));
         rentedCar.setCarStatus(CarStatus.AVAILABLE);
+    }
+
+    private double simulateMoving(double min, double max) {
+        Random r = new Random();
+        return (r.nextInt((int)((max-min)*10+1))+min*10) / 10.0;
     }
 
     public void openDeal(String userEmail, long carId) {
