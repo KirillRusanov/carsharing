@@ -7,8 +7,6 @@ import carsharing.service.SpecialistService;
 import carsharing.web.dto.CustomerDTO;
 import carsharing.web.dto.RateDTO;
 import carsharing.web.dto.SpecialistDTO;
-import carsharing.web.mapper.CustomerMapper;
-import carsharing.web.mapper.RateMapper;
 import carsharing.web.mapper.SpecialistMapper;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,17 +31,15 @@ public class AdminController {
 
 
     private SpecialistMapper specialistMapper = Mappers.getMapper(SpecialistMapper.class);
-    private RateMapper rateMapper = Mappers.getMapper(RateMapper.class);
-    private CustomerMapper customerMapper = Mappers.getMapper(CustomerMapper.class);
 
     @GetMapping(value = "/specialists-list")
     public List<SpecialistDTO> getSpecialistList() {
-        return specialistMapper.convertToDTO(specialistService.getAll());
+        return specialistService.getAll();
     }
 
     @GetMapping(value = "/customers-list")
     public List<CustomerDTO> getCustomerList()  {
-        return customerMapper.convertToDTO(customerService.getAll());
+        return customerService.getAll();
     }
 
 
@@ -54,13 +50,13 @@ public class AdminController {
 
     @PostMapping(value = "/rates/create", produces = "application/json", consumes="application/json")
     public RateDTO createRate(@RequestBody RateDTO rateDTO) {
-        rateService.save(rateMapper.convertToEntity(rateDTO));
+        rateService.save(rateDTO);
         return rateDTO;
     }
 
     @PostMapping(value = "/rates/edit", produces = "application/json", consumes = "application/json")
     public RateDTO updateRate(@RequestBody RateDTO rateDTO) {
-        rateService.save(rateMapper.convertToEntity(rateDTO));
+        rateService.save(rateDTO);
         return rateDTO;
     }
 

@@ -4,9 +4,6 @@ import carsharing.service.CustomerService;
 import carsharing.service.DealService;
 import carsharing.web.dto.CustomerAuthenticationDTO;
 import carsharing.web.dto.CustomerDTO;
-import carsharing.web.mapper.CustomerMapper;
-import carsharing.web.mapper.DealMapper;
-import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,10 +20,6 @@ public class HomeController {
     @Autowired
     private CustomerService customerService;
 
-    private CustomerMapper customerMapper = Mappers.getMapper(CustomerMapper.class);
-
-    private DealMapper dealMapper = Mappers.getMapper(DealMapper.class);
-
     @GetMapping(value = "/index")
     public String getHomePage() {
         return "index";
@@ -39,8 +32,8 @@ public class HomeController {
             return "login";
         }
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        CustomerDTO customerDTO = customerMapper.convertToDTO(customerService.getCustomerByEmail(userDetails.getUsername()));
-        model.addAttribute("deals", dealMapper.convertToDTO(dealService.getUserDeals(customerDTO.getId())));
+        CustomerDTO customerDTO = customerService.getCustomerDtoByEmail(userDetails.getUsername());
+        model.addAttribute("deals", dealService.getUserDeals(customerDTO.getId()));
         model.addAttribute("customer", customerDTO);
         return "panel";
     }

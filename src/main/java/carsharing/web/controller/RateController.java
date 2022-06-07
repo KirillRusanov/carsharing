@@ -2,11 +2,12 @@ package carsharing.web.controller;
 
 import carsharing.service.RateService;
 import carsharing.web.dto.RateDTO;
-import carsharing.web.mapper.RateMapper;
-import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -18,15 +19,13 @@ public class RateController {
     @Autowired
     private RateService rateService;
 
-    private RateMapper rateMapper = Mappers.getMapper(RateMapper.class);
-
     @GetMapping(value = "/list")
     public List<RateDTO> getRateList() {
-        return rateMapper.convertToDTO(rateService.getAll());
+        return rateService.getAll();
     }
 
     @GetMapping(value = "/{id}")
     public RateDTO getRateById(@PathVariable("id") Long id) {
-        return rateMapper.convertToDTO(rateService.findById(id));
+        return rateService.getById(id);
     }
 }

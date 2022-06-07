@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://java.sun.com/jsf/core">
+<head>
+    <title>Carsharing Grodno</title>
+    <div th:replace="fragments/header :: header-css"/>
+</head>
+<body class="banner">
+<div sec:authorize="isAuthenticated()">
+    <div class="container">
+        <div class="small-panel">
+            <div class="text-white">
+                <p class="h3">Congratulations!!! <br>The transaction was completed successfully</p>
+                    <button class="btn btn-light">View receipt</button>
+                    <button class="btn btn-light">Download receipt</button>
+                    <form th:action="@{/api/deal/sendReceipt}" method="post">
+                        <button type="submit" class="btn btn-light">Send receipt by email</button>
+                        <input th:name="dealId" th:hidden="true" th:value="${deal.id}">
+                        <input th:name="email" type="text" class="border-2 border-dark" placeholder="user-profile@gmail.com" autofocus="true">
+                    </form>
+                <div align="left">
+                    <a class="h3" href="/carsharing/m-panel"><br>< - back</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

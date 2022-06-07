@@ -1,13 +1,8 @@
 package carsharing.dao.repository;
 
-import carsharing.dao.DAO;
 import carsharing.dao.model.Role;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.repository.CrudRepository;
 
-@Repository
-public class RoleRepository extends DAO<Role> {
+public interface RoleRepository extends CrudRepository<Role, Long> {
 
-    public RoleRepository() {
-        setEntityClass(Role.class);
-    }
 }

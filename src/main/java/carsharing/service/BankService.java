@@ -2,7 +2,7 @@ package carsharing.service;
 
 import carsharing.dao.model.Card;
 import carsharing.dao.model.Customer;
-import carsharing.service.exception.DealPaymentException;
+import carsharing.service.exception.deal.DealPaymentException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -11,9 +11,9 @@ import java.util.Random;
 import java.util.UUID;
 
 @Component
-public class BankManager {
+public class BankService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(BankManager.class);
+    private static final Logger LOG = LoggerFactory.getLogger(BankService.class);
 
     public String withdraw(Customer customer, long totalPrice) {
         for(Card card : customer.getCards()) {

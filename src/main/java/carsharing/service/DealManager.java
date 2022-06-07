@@ -25,7 +25,7 @@ public class DealManager {
         RateCalculator rateCalculator = getRateCalculator(deal.getCar().getRate());
         long totalPrice = rateCalculator.consider(deal);
         LOG.info(deal.getId() + " is in the process of completion, payment is due");
-        return paymentManager.executeTransaction(deal, totalPrice);
+        return paymentManager.withdrawFundsFromAccount(deal, totalPrice);
     }
 
     private RateCalculator getRateCalculator(Rate rate) throws ClassNotFoundException {

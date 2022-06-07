@@ -1,13 +1,8 @@
 package carsharing.dao.repository;
 
-import carsharing.dao.DAO;
 import carsharing.dao.model.Specialist;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.repository.CrudRepository;
 
-@Repository
-public class SpecialistRepository extends DAO<Specialist> {
+public interface SpecialistRepository extends CrudRepository<Specialist, Long> {
 
-    public SpecialistRepository() {
-        setEntityClass(Specialist.class);
-    }
 }

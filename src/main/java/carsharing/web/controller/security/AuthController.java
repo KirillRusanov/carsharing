@@ -1,15 +1,11 @@
 package carsharing.web.controller.security;
 
-import carsharing.dao.model.Customer;
 import carsharing.service.CustomerService;
-import carsharing.service.RoleService;
-import carsharing.service.security.JwtTokenProvider;
+import carsharing.service.SecurityService;
+import carsharing.service.exception.security.JwtAuthenticationException;
 import carsharing.web.dto.CustomerAuthenticationDTO;
 import carsharing.web.dto.CustomerDTO;
-import carsharing.web.mapper.CustomerMapper;
-import org.mapstruct.factory.Mappers;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import carsharing.web.dto.CustomerRegistrationDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -17,18 +13,23 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Collections;
+import javax.validation.Valid;
 
 
 @Controller
@@ -38,29 +39,16 @@ public class AuthController {
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
-    private JwtTokenProvider jwtTokenProvider;
-    @Autowired
-    private RoleService roleService;
-    @Autowired
-    public BCryptPasswordEncoder passwordEncoder;
-    @Autowired
-    private CustomerService customerService;
-
-    private CustomerMapper customerMapper = Mappers.getMapper(CustomerMapper.class);
-
-    private static final Logger LOG = LoggerFactory.getLogger(AuthController.class);
+    private SecurityService securityService;
 
     @PostMapping(value = "/signup")
-    public String signUp(@ModelAttribute("CustomerDTO") CustomerDTO customerDTO) {
-        if (customerService.getCustomerByEmail(customerDTO.getEmail()) != null) {
-           throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email is already taken.");
+    public String signUp(@ModelAttribute("customer") @Valid CustomerRegistrationDTO customerDTO, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("customer", customerDTO);
+            return "registration";
         }
-        Customer customer = customerMapper.convertToEntity(customerDTO);
-        customer.setRoles(Collections.singleton(roleService.findById(1L)));
-        customer.setPassword(passwordEncoder.encode(customerDTO.getPassword()));
-        customerService.save(customer);
-        LOG.info("Customer " + customerDTO.getEmail() + " registered");
-        return "login";
+        securityService.registerUser(customerDTO);
+        return "redirect:/api/auth/signin";
     }
 
     @PostMapping(value = "/signin")
@@ -69,18 +57,15 @@ public class AuthController {
         try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(customerAuthenticationDTO.getEmail(), customerAuthenticationDTO.getPassword()));
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            Customer customer = customerService.getCustomerByEmail(customerAuthenticationDTO.getEmail());
-            String jwt = jwtTokenProvider.createToken(customerAuthenticationDTO.getEmail());
+            String jwt = securityService.authorizeUser(authentication, customerAuthenticationDTO);
             Cookie cookie = new Cookie(HttpHeaders.AUTHORIZATION, jwt);
             cookie.setMaxAge(60 * 60 * 24);
             cookie.setDomain("localhost");
             cookie.setPath("/");
             response.addCookie(cookie);
-            LOG.info("Client \"{}\" logged into the system", customer.getEmail());
             return "redirect:/m-panel";
         } catch (AuthenticationException ex) {
-            return "redirect:/api/auth/signin";
+            throw new JwtAuthenticationException("Wrong password! Try another!");
         }
     }
 
@@ -95,7 +80,9 @@ public class AuthController {
 
     @GetMapping(value = "/signup")
     public String singUp(Model model) {
-        model.addAttribute("customer", new CustomerDTO());
+        if(!model.containsAttribute("customer")) {
+            model.addAttribute("customer", new CustomerRegistrationDTO());
+        }
         return "registration";
     }
 

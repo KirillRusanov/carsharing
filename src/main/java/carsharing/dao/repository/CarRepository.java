@@ -1,13 +1,12 @@
 package carsharing.dao.repository;
 
-import carsharing.dao.DAO;
 import carsharing.dao.model.Car;
-import org.springframework.stereotype.Repository;
+import carsharing.dao.model.CarStatus;
+import org.springframework.data.repository.CrudRepository;
 
-@Repository
-public class CarRepository extends DAO<Car> {
+import java.util.List;
 
-    public CarRepository() {
-        setEntityClass(Car.class);
-    }
+public interface CarRepository extends CrudRepository<Car, Long> {
+
+    List<Car> findAllByCarStatus(CarStatus status);
 }

@@ -23,6 +23,6 @@ public class RateCalculatorByHours implements RateCalculator {
     @Override
     public long consider(Deal deal) {
         long totalTime = (LocalDateTime.now().getHour() - deal.getStartDate().getHour());
-        return totalTime * deal.getCar().getRate().getCost();
+        return totalTime != 0 ? totalTime * deal.getCar().getRate().getCost() : deal.getCar().getRate().getCost();
     }
 }

@@ -1,8 +1,13 @@
 package carsharing.web.dto;
 
-import lombok.Data;
+import lombok.*;
 
-@Data
+import java.math.BigDecimal;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class CustomerDTO {
 
     private long id;
@@ -15,9 +20,11 @@ public class CustomerDTO {
 
     private String surname;
 
-    private String passport_number;
+    private String passportNumber;
 
-    private String license_number;
+    private String licenseNumber;
 
-    private String phone_number;
+    private String phoneNumber;
+
+    private BigDecimal balance;
 }

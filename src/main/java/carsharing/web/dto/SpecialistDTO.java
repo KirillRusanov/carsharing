@@ -13,7 +13,7 @@ public class SpecialistDTO {
 
     private String name;
 
-    private String phone_number;
+    private String phoneNumber;
 
     private List<Customer> customers;
 }

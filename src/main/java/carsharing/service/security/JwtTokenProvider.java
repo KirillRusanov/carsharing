@@ -1,6 +1,6 @@
 package carsharing.service.security;
 
-import carsharing.service.exception.JwtAuthenticationException;
+import carsharing.service.exception.security.JwtAuthenticationException;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -8,30 +8,35 @@
 <div th:replace="fragments/header :: header"/>
 
 <div class="container">
-    <div class="authorization-panel">
+    <div class="small-panel">
         <form th:action="@{/api/auth/signup}" th:object="${customer}" method="post">
             <h2 class="text-white">Registration. Please Sign up</h2>
             <div class="input-group">
                 <div class="form-group">
                     <input th:field="*{name}" type="text" name="name" class="form-control input-lg"
                            placeholder="First Name" required="true" autofocus="true"/>
+                    <div style="margin-top: 1%" class="alert alert-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
                 </div>
                 <div class="form-group">
                     <input th:field="*{surname}" type="text" name="surname" class="form-control input-lg"
                            placeholder="Last Name" required="true"/>
+                    <div style="margin-top: 1%" class="alert alert-danger" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"></div>
                 </div>
             </div>
             <div class="form-group">
-                <input th:field="*{phone_number}" type="text" name="phone_number" class="form-control input-lg"
+                <input th:field="*{phoneNumber}" type="text" name="phoneNumber" class="form-control input-lg"
                        placeholder="Phone number" required="true" autofocus="true"/>
+                <div style="margin-top: 1%" class="alert alert-danger" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></div>
             </div>
             <div class="form-group">
                 <input th:field="*{email}" type="text" name="username" class="form-control input-lg"
                        placeholder="Email" required="true" autofocus="true"/>
+                <div style="margin-top: 1%" class="alert alert-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
             </div>
             <div class="form-group">
                 <input th:field="*{password}" type="password" name="password" class="form-control input-lg"
                        placeholder="Password" required="true"/>
+                <div style="margin-top: 1%" class="alert alert-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
             </div>
 
             <input type="submit" class="btn btns-authorization btn-lg btn-info btn-block border-dark" value="Sign up"/>

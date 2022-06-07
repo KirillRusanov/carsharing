@@ -1,21 +1,33 @@
 package carsharing.service;
 
+import carsharing.dao.model.Customer;
 import carsharing.dao.model.Deal;
 import carsharing.web.dto.Receipt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Component
 public class PaymentManager {
 
     @Autowired
-    private BankManager bankManager;
+    private BankService bankService;
+    @Autowired
+    private CustomerService customerService;
 
     public Receipt executeTransaction(Deal deal, long totalPrice) {
-        String transactionNumber = bankManager.withdraw(deal.getCustomer(), totalPrice);
+        String transactionNumber = bankService.withdraw(deal.getCustomer(), totalPrice);
         return getReceipt(deal, totalPrice, transactionNumber);
+    }
+
+    public Receipt withdrawFundsFromAccount(Deal deal, long totalPrice) {
+        Customer customer = customerService.getCustomerByEmail(deal.getCustomer().getEmail());
+        customer.setBalance(customer.getBalance().subtract(BigDecimal.valueOf(totalPrice)));
+        customerService.save(customer);
+        return getReceipt(deal, totalPrice, getDebitNumber());
     }
 
     private Receipt getReceipt(Deal deal, long totalPrice, String transactionNumber) {
@@ -29,5 +41,9 @@ public class PaymentManager {
                 .transactionNumber(transactionNumber)
                 .totalPrice(totalPrice)
                 .build();
+    }
+
+    private String getDebitNumber() {
+        return UUID.randomUUID().toString();
     }
 }

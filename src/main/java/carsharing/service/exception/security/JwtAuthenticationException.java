@@ -1,4 +1,4 @@
-package carsharing.service.exception;
+package carsharing.service.exception.security;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;

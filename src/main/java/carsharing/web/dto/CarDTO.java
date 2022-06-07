@@ -4,6 +4,7 @@ import carsharing.dao.model.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Data
@@ -13,7 +14,7 @@ public class CarDTO {
 
     private CarType type;
 
-    private CarStatus car_status;
+    private CarStatus carStatus;
 
     private String brand;
 
@@ -27,4 +28,7 @@ public class CarDTO {
 
     private List<Deal> deals;
 
+    private BigDecimal posX;
+
+    private BigDecimal posY;
 }

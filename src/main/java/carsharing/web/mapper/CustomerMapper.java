@@ -11,9 +11,9 @@ public interface CustomerMapper {
 
     CustomerDTO convertToDTO(Customer entity);
 
-    Customer convertToEntity(CustomerDTO carDTO);
+    Customer convertToEntity(CustomerDTO customerDTO);
 
-    List<CustomerDTO> convertToDTO(List<Customer> carsEntities);
+    List<CustomerDTO> convertToDTO(List<Customer> customerEntities);
 
-    List<Customer> convertToEntity(List<CustomerDTO> carsDTOs);
+    List<Customer> convertToEntity(List<CustomerDTO> customerDTOS);
 }

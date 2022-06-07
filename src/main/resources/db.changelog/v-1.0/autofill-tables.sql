@@ -17,7 +17,7 @@ INSERT INTO `customer` (`id`, `name`, `surname`, `phone_number`,
 `email`, `password`, `passport_number`,
  `license_number`, `is_verified`, `specialist_id`)
 values (2, "Kirill", "Rusanov", "+375295841020",
- "kr.rusanov@mail.ru", "$2a$10$9/qrbYNjt/YZ7h.KVCoZMuX6ikbTEXF0SXZptbfaCs5MtBVyCvHlG", "EBB32122",
+ "kr.rusanov@mail.ru", "$2a$12$zmTgyL8wO8wDoC74sJG84uZzEE6tkd11mU/vSO8ErZ7OhAi6ihcWi", "EBB32122",
  "DDR2112", 1, 3);
 GO
 INSERT INTO `customer` (`id`, `name`, `surname`, `phone_number`,
