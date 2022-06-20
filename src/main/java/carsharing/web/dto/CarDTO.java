@@ -31,4 +31,6 @@ public class CarDTO {
     private BigDecimal posX;
 
     private BigDecimal posY;
+
+    private DoorStatus doorStatus;
 }

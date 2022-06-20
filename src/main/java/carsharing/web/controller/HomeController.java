@@ -25,6 +25,11 @@ public class HomeController {
         return "index";
     }
 
+    @GetMapping(value = "/about")
+    public String getAboutPage() {
+        return "about";
+    }
+
     @GetMapping(value = "/m-panel")
     public String getPanel(Authentication authentication, Model model) {
         if (authentication == null) {

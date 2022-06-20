@@ -50,4 +50,7 @@ public class Car extends EntityDetails {
     @Column(name = "posY")
     private BigDecimal posY;
 
+    @Enumerated(value = EnumType.STRING)
+    @Column(name = "doorStatus")
+    private DoorStatus doorStatus;
 }

@@ -44,56 +44,56 @@ GO
 INSERT INTO `role` (`id`, `name`) values (3, "ROLE_ADMIN");
 GO
 
-INSERT INTO `car` (`id`, `car_type`, `car_status`, `brand`, `fuel`, `rate_id`, `customer_id`, `posX`, `posY`)
-values (1, "SPORT", "BUSY", "Hyundai Tucson", 120, 2, 2, 53.65064900, 23.80531400);
+INSERT INTO `car` (`id`, `car_type`, `car_status`, `brand`, `fuel`, `rate_id`, `customer_id`, `posX`, `posY`, `doorStatus`)
+values (1, "SPORT", "BUSY", "Hyundai Tucson", 120, 2, 2, 53.65064900, 23.80531400, "CLOSED");
 GO
-INSERT INTO `car` (`id`, `car_type`, `car_status`, `brand`, `fuel`, `rate_id`, `customer_id`, `posX`, `posY`)
-values (2, "BASIC", "AVAILABLE", "Volkswagen Lavida", 125, 2, 2, 53.67532200, 23.86127600);
+INSERT INTO `car` (`id`, `car_type`, `car_status`, `brand`, `fuel`, `rate_id`, `customer_id`, `posX`, `posY`, `doorStatus`)
+values (2, "BASIC", "AVAILABLE", "Volkswagen Lavida", 125, 2, 2, 53.67532200, 23.86127600, "CLOSED");
 GO
-INSERT INTO `car` (`id`, `car_type`, `car_status`, `brand`, `fuel`, `rate_id`, `customer_id`, `posX`, `posY`)
-values (3, "BASIC", "AVAILABLE", "Nissan Sylphy", 39, 3, 2, 53.69937000, 23.81836000);
+INSERT INTO `car` (`id`, `car_type`, `car_status`, `brand`, `fuel`, `rate_id`, `customer_id`, `posX`, `posY`, `doorStatus`)
+values (3, "BASIC", "AVAILABLE", "Nissan Sylphy", 39, 3, 2, 53.69937000, 23.81836000, "CLOSED");
 GO
-INSERT INTO `car` (`id`, `car_type`, `car_status`, `brand`, `fuel`, `rate_id`, `customer_id`, `posX`, `posY`)
-values (4, "BASIC", "BUSY", "Toyota Camry", 176, 1, 2, 53.67634200, 23.80428400);
+INSERT INTO `car` (`id`, `car_type`, `car_status`, `brand`, `fuel`, `rate_id`, `customer_id`, `posX`, `posY`, `doorStatus`)
+values (4, "BASIC", "BUSY", "Toyota Camry", 176, 1, 2, 53.67634200, 23.80428400, "CLOSED");
 GO
-INSERT INTO `car` (`id`, `car_type`, `car_status`, `brand`, `fuel`, `rate_id`, `customer_id`, `posX`, `posY`)
-values (5, "BASIC", "AVAILABLE", "Toyota Camry", 10, 1, 2, 53.69056800, 23.83346600);
+INSERT INTO `car` (`id`, `car_type`, `car_status`, `brand`, `fuel`, `rate_id`, `customer_id`, `posX`, `posY`, `doorStatus`)
+values (5, "BASIC", "AVAILABLE", "Toyota Camry", 10, 1, 2, 53.69056800, 23.83346600, "CLOSED");
 GO
-INSERT INTO `car` (`id`, `car_type`, `car_status`, `brand`, `fuel`, `rate_id`, `customer_id`, `posX`, `posY`)
-values (6, "BASIC", "AVAILABLE", "Toyota Camry", 32, 1, 2, 53.65020000, 23.81424000);
+INSERT INTO `car` (`id`, `car_type`, `car_status`, `brand`, `fuel`, `rate_id`, `customer_id`, `posX`, `posY`, `doorStatus`)
+values (6, "BASIC", "AVAILABLE", "Toyota Camry", 32, 1, 2, 53.65020000, 23.81424000, "CLOSED");
 GO
-INSERT INTO `car` (`id`, `car_type`, `car_status`, `brand`, `fuel`, `rate_id`, `customer_id`, `posX`, `posY`)
-values (7, "BASIC", "AVAILABLE", "Volkswagen Tiguan", 11, 1, 2, 53.67528200, 23.85337900);
+INSERT INTO `car` (`id`, `car_type`, `car_status`, `brand`, `fuel`, `rate_id`, `customer_id`, `posX`, `posY`, `doorStatus`)
+values (7, "BASIC", "AVAILABLE", "Volkswagen Tiguan", 11, 1, 2, 53.67528200, 23.85337900, "CLOSED");
 GO
-INSERT INTO `car` (`id`, `car_type`, `car_status`, `brand`, `fuel`, `rate_id`, `customer_id`, `posX`, `posY`)
-values (8, "BASIC", "AVAILABLE", "Honda Civic", 62, 1, 2, 53.66610700, 23.78402800);
+INSERT INTO `car` (`id`, `car_type`, `car_status`, `brand`, `fuel`, `rate_id`, `customer_id`, `posX`, `posY`, `doorStatus`)
+values (8, "BASIC", "AVAILABLE", "Honda Civic", 62, 1, 2, 53.66610700, 23.78402800, "CLOSED");
 GO
-INSERT INTO `car` (`id`, `car_type`, `car_status`, `brand`, `fuel`, `rate_id`, `customer_id`, `posX`, `posY`)
-values (9, "BASIC", "AVAILABLE", "Toyota RAV4", 67, 1, 2, 53.66508800, 23.88668100);
+INSERT INTO `car` (`id`, `car_type`, `car_status`, `brand`, `fuel`, `rate_id`, `customer_id`, `posX`, `posY`, `doorStatus`)
+values (9, "BASIC", "AVAILABLE", "Toyota RAV4", 67, 1, 2, 53.66508800, 23.88668100, "CLOSED");
 GO
-INSERT INTO `car` (`id`, `car_type`, `car_status`, `brand`, `fuel`, `rate_id`, `customer_id`, `posX`, `posY`)
-values (10, "BASIC", "AVAILABLE", "Volkswagen Polo", 24, 1, 2, 53.69077100, 23.81458400);
+INSERT INTO `car` (`id`, `car_type`, `car_status`, `brand`, `fuel`, `rate_id`, `customer_id`, `posX`, `posY`, `doorStatus`)
+values (10, "BASIC", "AVAILABLE", "Volkswagen Polo", 24, 1, 2, 53.69077100, 23.81458400, "CLOSED");
 GO
-INSERT INTO `car` (`id`, `car_type`, `car_status`, `brand`, `fuel`, `rate_id`, `customer_id`, `posX`, `posY`)
-values (11, "SPORT", "AVAILABLE", "Audi R8", 24, 1, 2, 53.673175, 23.826115);
+INSERT INTO `car` (`id`, `car_type`, `car_status`, `brand`, `fuel`, `rate_id`, `customer_id`, `posX`, `posY`, `doorStatus`)
+values (11, "SPORT", "AVAILABLE", "Audi R8", 24, 1, 2, 53.673175, 23.826115, "CLOSED");
 GO
-INSERT INTO `car` (`id`, `car_type`, `car_status`, `brand`, `fuel`, `rate_id`, `customer_id`, `posX`, `posY`)
-values (12, "SPORT", "AVAILABLE", "Audi R8", 24, 1, 2, 53.613175, 23.886115);
+INSERT INTO `car` (`id`, `car_type`, `car_status`, `brand`, `fuel`, `rate_id`, `customer_id`, `posX`, `posY`, `doorStatus`)
+values (12, "SPORT", "AVAILABLE", "Audi R8", 24, 1, 2, 53.613175, 23.886115, "CLOSED");
 GO
-INSERT INTO `car` (`id`, `car_type`, `car_status`, `brand`, `fuel`, `rate_id`, `customer_id`, `posX`, `posY`)
-values (13, "SPORT", "AVAILABLE", "Bugatti Veyron", 24, 1, 2, 53.66970700, 23.82058400);
+INSERT INTO `car` (`id`, `car_type`, `car_status`, `brand`, `fuel`, `rate_id`, `customer_id`, `posX`, `posY`, `doorStatus`)
+values (13, "SPORT", "AVAILABLE", "Bugatti Veyron", 24, 1, 2, 53.66970700, 23.82058400, "CLOSED");
 GO
-INSERT INTO `car` (`id`, `car_type`, `car_status`, `brand`, `fuel`, `rate_id`, `customer_id`, `posX`, `posY`)
-values (14, "SPORT", "AVAILABLE", "Bugatti Veyron", 24, 1, 2, 53.66890700, 23.81658400);
+INSERT INTO `car` (`id`, `car_type`, `car_status`, `brand`, `fuel`, `rate_id`, `customer_id`, `posX`, `posY`, `doorStatus`)
+values (14, "SPORT", "AVAILABLE", "Bugatti Veyron", 24, 1, 2, 53.66890700, 23.81658400, "CLOSED");
 GO
-INSERT INTO `car` (`id`, `car_type`, `car_status`, `brand`, `fuel`, `rate_id`, `customer_id`, `posX`, `posY`)
-values (15, "SPORT", "AVAILABLE", "Bugatti Veyron", 24, 1, 2, 53.77610700, 23.81458400);
+INSERT INTO `car` (`id`, `car_type`, `car_status`, `brand`, `fuel`, `rate_id`, `customer_id`, `posX`, `posY`, `doorStatus`)
+values (15, "SPORT", "AVAILABLE", "Bugatti Veyron", 24, 1, 2, 53.77610700, 23.81458400, "CLOSED");
 GO
-INSERT INTO `car` (`id`, `car_type`, `car_status`, `brand`, `fuel`, `rate_id`, `customer_id`, `posX`, `posY`)
-values (16, "SPORT", "AVAILABLE", "Dodge Viper", 24, 1, 2, 53.670175, 23.829215);
+INSERT INTO `car` (`id`, `car_type`, `car_status`, `brand`, `fuel`, `rate_id`, `customer_id`, `posX`, `posY`, `doorStatus`)
+values (16, "SPORT", "AVAILABLE", "Dodge Viper", 24, 1, 2, 53.670175, 23.829215, "CLOSED");
 GO
-INSERT INTO `car` (`id`, `car_type`, `car_status`, `brand`, `fuel`, `rate_id`, `customer_id`, `posX`, `posY`)
-values (17, "SPORT", "AVAILABLE", "Dodge Viper", 24, 1, 2, 53.678975, 23.827515);
+INSERT INTO `car` (`id`, `car_type`, `car_status`, `brand`, `fuel`, `rate_id`, `customer_id`, `posX`, `posY`, `doorStatus`)
+values (17, "SPORT", "AVAILABLE", "Dodge Viper", 24, 1, 2, 53.678975, 23.827515, "CLOSED");
 GO
 
 INSERT INTO `card` (`id`, `number`, `code`, `term`, `customer_id`)

@@ -1,6 +1,7 @@
 package carsharing.service;
 
 import carsharing.dao.model.Customer;
+import carsharing.dao.model.Payment;
 import carsharing.dao.repository.CustomerRepository;
 import carsharing.service.exception.ServerNotFoundException;
 import carsharing.web.dto.CustomerDTO;
@@ -14,7 +15,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CustomerService implements UserDetailsService {
@@ -48,6 +48,19 @@ public class CustomerService implements UserDetailsService {
 
     public void save(CustomerDTO customer) {
         customerRepository.save(customerMapper.convertToEntity(customer));
+    }
+
+    public void updateCustomerProfile(CustomerDTO customerDto) {
+        Customer loadedCustomer = getById(customerDto.getId());
+        loadedCustomer.setPassportNumber(customerDto.getPassportNumber());
+        loadedCustomer.setLicenseNumber(customerDto.getLicenseNumber());
+        save(loadedCustomer);
+    }
+
+    public void depositToAccount(Payment payment, String username) {
+        Customer customer = getCustomerByEmail(username);
+        customer.setBalance(customer.getBalance().add(payment.getAmount()));
+        save(customer);
     }
 
     protected void save(Customer customer) {

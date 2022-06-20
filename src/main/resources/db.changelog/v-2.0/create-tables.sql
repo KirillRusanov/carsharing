@@ -29,3 +29,5 @@ GO
 ALTER TABLE `car` ADD `posX` DECIMAL(11, 8)
 GO
 ALTER TABLE `car` ADD `posY` DECIMAL(11, 8)
+GO
+ALTER TABLE `car` ADD `doorStatus` VARCHAR(255)

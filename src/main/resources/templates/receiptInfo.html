@@ -10,8 +10,8 @@
         <div class="small-panel">
             <div class="text-white">
                 <p class="h3">Congratulations!!! <br>The transaction was completed successfully</p>
-                    <button class="btn btn-light">View receipt</button>
-                    <button class="btn btn-light">Download receipt</button>
+<!--                    <button class="btn btn-light">View receipt</button>-->
+<!--                    <button class="btn btn-light">Download receipt</button>-->
                     <form th:action="@{/api/deal/sendReceipt}" method="post">
                         <button type="submit" class="btn btn-light">Send receipt by email</button>
                         <input th:name="dealId" th:hidden="true" th:value="${deal.id}">

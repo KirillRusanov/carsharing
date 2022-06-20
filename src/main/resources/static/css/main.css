@@ -82,6 +82,14 @@ nav {
     border-radius:10px;
 }
 
+.profile-panel {
+    margin: 3% 20% 5%;
+    background: linear-gradient(230deg, #5E5861 3%, rgba(132, 128, 135, 0.7) 35.00%);
+    padding: 2% 4% 3%;
+    box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
+    border-radius:10px;
+}
+
 .small-panel .form-group {
     padding: 2%;
 }
@@ -118,11 +126,8 @@ nav {
     background-color: #dc3545 !important;
 }
 .panel-icon {
-    padding-left: 1px;
-    padding-right: 1px;
-    margin-right: 1px;
-    width: 25px;
-    height: 25px;
+    padding: 2px;
+    width: 23px;
+    height: 23px;
     background-color: white;
-    border-radius: 10px 0 0 0px;
 }

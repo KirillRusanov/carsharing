@@ -6,13 +6,11 @@ import carsharing.web.dto.CarDTO;
 import carsharing.web.dto.ConditionCar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-@RestController
+@Controller
 @RequestMapping("api/cars")
 public class CarController {
 
@@ -37,6 +35,13 @@ public class CarController {
     public ConditionCar getAllIndicators(@PathVariable("id") Long id) {
 //        return remoteCarControlService.getAllIndicators(carService.findById(id));
         return ConditionCar.builder().speed(4).build();
+    }
+
+    @GetMapping(value = "/control-panel/closeOrOpen")
+    public String closeOrOpenDoors(@RequestParam("carId") Long carId) {
+        // TODO temporary solution
+        remoteCarControlService.closeOrOpenDoors(carId);
+        return "redirect:/m-panel";
     }
 
     @GetMapping(value = "/{id}/control-panel/open")

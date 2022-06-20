@@ -102,6 +102,7 @@ public class DealService {
         rentedCar.setPosX(randomPos > 0 ? rentedCar.getPosX().add(new BigDecimal(randomPos)) : rentedCar.getPosX().subtract(new BigDecimal(randomPos)));
         rentedCar.setPosY(randomPos > 0 ? rentedCar.getPosY().subtract(new BigDecimal(randomPos)) : rentedCar.getPosY().add(new BigDecimal(randomPos)));
         rentedCar.setCarStatus(CarStatus.AVAILABLE);
+        rentedCar.setDoorStatus(DoorStatus.CLOSED);
     }
 
     private double simulateMoving(double min, double max) {

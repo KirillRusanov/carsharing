@@ -2,6 +2,7 @@ package carsharing.service;
 
 import carsharing.dao.model.Car;
 import carsharing.dao.model.CarStatus;
+import carsharing.dao.model.DoorStatus;
 import carsharing.dao.repository.CarRepository;
 import carsharing.service.exception.ServerNotFoundException;
 import carsharing.web.dto.CarDTO;
@@ -49,6 +50,12 @@ public class CarService {
 
     public List<CarDTO> getAvailableCars() {
         return carMapper.convertToDTO(carRepository.findAllByCarStatus(CarStatus.AVAILABLE));
+    }
+
+    public void changeStatusDoor(Long carId) {
+        Car needCar = getById(carId);
+        needCar.setDoorStatus(DoorStatus.CLOSED.equals(needCar.getDoorStatus()) ? DoorStatus.OPENED : DoorStatus.CLOSED);
+        save(needCar);
     }
 
 }

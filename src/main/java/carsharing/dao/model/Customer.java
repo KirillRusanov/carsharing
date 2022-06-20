@@ -64,6 +64,7 @@ public class Customer extends EntityDetails implements UserDetails {
     @JoinColumn(name = "specialist_id")
     private Specialist specialist;
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "customer_role",
             joinColumns = {@JoinColumn(name = "customer_id")},

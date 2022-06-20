@@ -10,7 +10,7 @@
     <div class="panel">
         <div sec:authorize="isAuthenticated()">
             <div class="tools">
-                <button type="button" class="profile btn btn-primary position-relative">
+                <button type="button" onclick="location.href='profile'" class="profile btn btn-primary position-relative">
                     Profile
                     <span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle"/>
                 </button>
@@ -22,27 +22,28 @@
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="#">Deals</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/carsharing/partnership">Partnership</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" sec:authorize="hasAnyRole('ROLE_SPECIALIST', 'ROLE_ADMIN')" href="#">SUPPORT</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" sec:authorize="hasRole('ROLE_ADMIN')" href="#">MANAGEMENT</a>
-                </li>
+<!--                <li class="nav-item">-->
+<!--                    <a class="nav-link" href="/carsharing/partnership">Partnership</a>-->
+<!--                </li>-->
+<!--                <li class="nav-item">-->
+<!--                    <a class="nav-link" sec:authorize="hasAnyRole('ROLE_SPECIALIST', 'ROLE_ADMIN')" href="#">SUPPORT</a>-->
+<!--                </li>-->
+<!--                <li class="nav-item">-->
+<!--                    <a class="nav-link" sec:authorize="hasRole('ROLE_ADMIN')" href="#">MANAGEMENT</a>-->
+<!--                </li>-->
             </ul>
 
             <div class="table-deals">
-                <table class="table table-dark border-white border-2 table-hover">
+                <table class="table table-dark text-center border-white border-2 table-hover">
                     <thead>
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Status</th>
                         <th scope="col">Car</th>
-                        <th scope="col">Cost (Type rate)</th>
+                        <th scope="col">Rate</th>
                         <th scope="col">Start Date</th>
                         <th scope="col">End Date</th>
+                        <th scope="col">Door</th>
                         <th scope="col">Tools</th>
                         <th scope="col">Action</th>
                     </tr>
@@ -59,13 +60,23 @@
                         <td th:utext="${deal.car.rate.cost} + ' (' + ${deal.car.rate.getType()} + ')'"></td>
                         <td th:utext="${deal.getStartDateForView()}"></td>
                         <td th:utext="${deal.endDate != null} ? ${deal.getEndDateForView()} : 'in process'"></td>
+                        <td><span class="badge bg-gradient" th:utext="${deal.car.getDoorStatus()}"></span></td>
                         <td>
-                            <a href="#"><img class="panel-icon" th:src="@{/image/panel-icon.png}"/></a>
-                            <a href="#"><img class="panel-icon" th:src="@{/image/settings-icon.png}"/></a></td>
+                            <a th:href="@{/api/cars/control-panel/closeOrOpen(carId=${deal.car.id})}"
+                               th:hidden="${(deal.getStatus().toString().equals('FINISHED')) ? 'true' : 'false'}">
+                            <img class="panel-icon" th:src="@{/image/lock-icon.png}"/>
+                            </a>
+                            <a th:href="@{/api/deal/receipt(dealId=${deal.id})}"
+                               th:hidden="${(deal.getStatus().toString().equals('FINISHED')) ? 'false' : 'true'}">
+                                <img class="panel-icon" th:src="@{/image/invoice-icon.png}"/>
+                            </a>
+                        </td>
                         <td>
-                            <form method="post" th:action="@{/api/deal/close(dealId=${deal.id})}"><button class="btn-danger"
-                                    th:utext="${((deal.status.toString().equals('ACTIVE') || (deal.status.toString().equals('WAITING')))
-                                    ? 'terminate' : 'get receipt')}"></button>
+                            <form method="post" th:action="@{/api/deal/close(dealId=${deal.id})}">
+                                <button class="btn-danger"
+                                th:disabled="${(deal.getStatus().toString().equals('FINISHED')) ? 'true' : 'false'}"
+                                th:utext="${(deal.status.toString().equals('ACTIVE') ? 'Terminate' : 'Thank you!')}">
+                                </button>
                             </form>
                         </td>
                     </tr>

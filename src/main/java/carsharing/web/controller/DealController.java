@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -63,9 +64,21 @@ public class DealController {
             modelAndView.setViewName("receiptInfo");
             modelAndView.addObject("deal", deal);
         } else {
-            throw new CarsharingException("TEST");
+            throw new CarsharingException("Problem with sending");
         }
         return modelAndView;
+    }
+
+    @GetMapping(value = "/receipt")
+    public ModelAndView getReceipt(@AuthenticationPrincipal UserDetails userDetails, ModelAndView model, @RequestParam("dealId") Long dealId) {
+        if (userDetails == null) {
+            model.addObject("customer", new CustomerAuthenticationDTO());
+            model.setViewName("login");
+            return model;
+        }
+        model.setViewName("receiptInfo");
+        model.addObject("deal", dealService.getById(dealId));
+        return model;
     }
 
     private boolean isPersonalDeal(String username, DealDTO deal) {
